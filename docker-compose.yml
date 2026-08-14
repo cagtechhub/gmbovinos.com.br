@@ -1,0 +1,90 @@
+# Produção na OS (Traefik + Supabase). Sem Postgres local. Sem ports no host.
+#
+# Pré-requisitos: docker network create web
+# SSR: NUXT_API_BASE usa container_name único (não o service name `backend`).
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    image: gmbovinos-api:prod
+    container_name: gmbovinos-backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: '3001'
+      DATABASE_URL: ${DATABASE_URL}
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
+      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET:-gallery}
+      ADMIN_ALLOWED_EMAILS: ${ADMIN_ALLOWED_EMAILS:-}
+      ADMIN_REQUIRE_ROLE: ${ADMIN_REQUIRE_ROLE:-false}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM_ADDRESS: ${SMTP_FROM_ADDRESS:-}
+      SMTP_TO: ${SMTP_TO:-}
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK:-web}
+      - traefik.http.routers.gmbovinos-api.rule=Host(`${API_DOMAIN}`)
+      - traefik.http.routers.gmbovinos-api.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.gmbovinos-api.tls=true
+      - traefik.http.routers.gmbovinos-api.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.gmbovinos-api.loadbalancer.server.port=3001
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NUXT_PUBLIC_API_BASE: ${NUXT_PUBLIC_API_BASE:-${NUXT_PUBLIC_API_URL}}
+        NUXT_PUBLIC_SITE_URL: ${NUXT_PUBLIC_SITE_URL}
+        NUXT_PUBLIC_SITE_NAME: ${NUXT_PUBLIC_SITE_NAME}
+        NUXT_PUBLIC_NO_INDEX: ${NUXT_PUBLIC_NO_INDEX:-false}
+        NUXT_PUBLIC_SUPABASE_URL: ${NUXT_PUBLIC_SUPABASE_URL:-${SUPABASE_URL:-}}
+        NUXT_PUBLIC_SUPABASE_ANON_KEY: ${NUXT_PUBLIC_SUPABASE_ANON_KEY:-${SUPABASE_ANON_KEY:-}}
+    image: gmbovinos-web:prod
+    container_name: gmbovinos-web
+    restart: unless-stopped
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: '3000'
+      NITRO_HOST: 0.0.0.0
+      NITRO_PORT: '3000'
+      NUXT_API_BASE: http://gmbovinos-backend:3001
+      NUXT_PUBLIC_API_BASE: ${NUXT_PUBLIC_API_BASE:-${NUXT_PUBLIC_API_URL}}
+      NUXT_PUBLIC_SITE_URL: ${NUXT_PUBLIC_SITE_URL}
+      NUXT_PUBLIC_SITE_NAME: ${NUXT_PUBLIC_SITE_NAME}
+      NUXT_PUBLIC_NO_INDEX: ${NUXT_PUBLIC_NO_INDEX:-false}
+      NUXT_PUBLIC_SUPABASE_URL: ${NUXT_PUBLIC_SUPABASE_URL:-${SUPABASE_URL:-}}
+      NUXT_PUBLIC_SUPABASE_ANON_KEY: ${NUXT_PUBLIC_SUPABASE_ANON_KEY:-${SUPABASE_ANON_KEY:-}}
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK:-web}
+      - traefik.http.routers.gmbovinos-web.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.gmbovinos-web.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.gmbovinos-web.tls=true
+      - traefik.http.routers.gmbovinos-web.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.gmbovinos-web.loadbalancer.server.port=3000
+
+networks:
+  traefik:
+    name: ${TRAEFIK_NETWORK:-web}
+    external: true

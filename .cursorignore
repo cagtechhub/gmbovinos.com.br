@@ -1,0 +1,3 @@
+gha_deploy*
+.env*
+node_modules

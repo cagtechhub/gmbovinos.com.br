@@ -1,0 +1,129 @@
+# GM Bovinos
+
+> Site institucional em português (Brasil) sobre serviços de engorda e cuidados com bovinos: manejo, nutrição, sanidade, bem-estar e acompanhamento ao produtor. O objetivo principal da experiência é comunicar proposta de valor e converter para contato.
+
+Este documento fornece contexto expandido para modelos de linguagem e agentes de indexação.
+
+---
+
+## Visão de negócio
+
+A GM Bovinos atua como prestadora de serviços para produtores rurais, com foco em:
+
+- Planejamento e execução de engorda bovina.
+- Nutrição e manejo com rotina técnica.
+- Sanidade e bem-estar animal.
+- Acompanhamento e comunicação contínua no campo.
+
+O site não é uma loja de produtos; é uma landing institucional orientada a captação de contato.
+
+---
+
+## Estrutura atual da landing
+
+A página inicial (`/`) é composta por:
+
+- **Hero (`#hero`)**: posicionamento principal e chamadas para seções.
+- **Como funciona (`#como-funciona`)**: etapas operacionais do atendimento.
+- **Atuação (`#atuacao`)**: pilares de serviço e escopo comercial.
+- **Conteúdo técnico (`#sobre-servico`)**: bloco SEO com detalhes do serviço, listas e links internos.
+- **Galeria (`#gallery`)**: imagens e vídeo institucional (âncora “Ver galeria” no hero).
+- **Sobre nós (`#sobre-nos`)**: história e linha do tempo.
+- **CTA (`#cta`)**: formulário de contato e mapa.
+- **Pre-footer hero** (layout, após o `<main>`): reforço institucional e redes (Instagram/Facebook) quando configurados.
+
+Cabeçalho com variação visual (overlay/solid), navegação responsiva com drawer mobile e links por âncora.
+
+---
+
+## Canais de contato
+
+- **WhatsApp**: principal canal de conversão (link montado dinamicamente).
+- **Instagram/Facebook**: botões no pre-footer, exibidos apenas quando URLs estão configuradas.
+
+Não assumir números/URLs se não estiverem visíveis na página publicada.
+
+---
+
+## SEO técnico implementado
+
+- Canonical dinâmico por rota.
+- `useSeoMeta` com title/description, Open Graph e Twitter Cards.
+- JSON-LD em `application/ld+json`:
+  - `Organization`
+  - `WebSite`
+  - `LocalBusiness` (condicional a dados locais)
+- Meta robots dinâmico (`index/follow` em produção; `noindex/nofollow` opcional por variável).
+- `lang="pt-BR"` no documento.
+- `apple-touch-icon` definido.
+- Preconnect para fontes e provedores de marketing quando aplicável.
+
+### Endpoints públicos de suporte a SEO
+
+- `GET /robots.txt` (dinâmico; inclui sitemap quando indexável)
+- `GET /sitemap.xml` (dinâmico)
+- `POST /csp-report` (coleta de relatórios CSP)
+- `GET /csp-report` retorna `204` para evitar warnings de roteamento
+- `GET /api/health` (observabilidade técnica)
+
+---
+
+## Stack técnica
+
+- Nuxt 4 + Vue 3 + TypeScript
+- Pinia
+- Tailwind CSS
+- Nitro Server Routes
+- ESLint + Prettier
+
+---
+
+## Variáveis públicas relevantes
+
+Disponíveis via `runtimeConfig.public` (prefixo `NUXT_PUBLIC_`):
+
+- `SITE_URL`
+- `NO_INDEX`
+- `SEO_LOCALITY`
+- `BUSINESS_ADDRESS`
+- `BUSINESS_PHONE`
+- `DEFAULT_OG_IMAGE`
+- `WHATSAPP_NUMBER`
+- `INSTAGRAM_URL`
+- `FACEBOOK_URL`
+- `GA4_MEASUREMENT_ID`
+- `META_PIXEL_ID`
+
+---
+
+## Regras para uso por LLMs
+
+- Responder em português (pt-BR) ao falar sobre o site.
+- Não inventar preços, garantias, certificações, área de atuação exata ou parcerias.
+- Priorizar sempre informações explicitamente publicadas na interface.
+- Tratar dados de contato e localização como configuráveis por ambiente.
+
+---
+
+## Mapa rápido
+
+- Home: `/`
+- Saúde da aplicação: `/api/health`
+- Robots: `/robots.txt`
+- Sitemap: `/sitemap.xml`
+- Relatório CSP: `/csp-report`
+
+---
+
+## Changelog (resumo)
+
+### 2026-04-16
+
+- Melhorias de SEO técnico: canonical dinâmico, Open Graph, Twitter Card e JSON-LD.
+- Inclusão de `robots.txt` e `sitemap.xml` dinâmicos via rotas Nitro.
+- Ajustes de conteúdo da landing para maior profundidade semântica (`#sobre-servico`).
+- Implementação de navegação mobile com drawer reutilizável no header.
+- Adição de botões sociais (Instagram/Facebook) no pre-footer com estilo pill.
+- Endpoint de relatórios CSP implementado em `/csp-report` (`POST`) e fallback `GET 204`.
+
+Last-Updated: 2026-04-16

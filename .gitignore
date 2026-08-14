@@ -1,0 +1,31 @@
+# Nuxt / build
+**/.nuxt
+**/.output
+.data
+.nitro
+.cache
+dist
+
+# Node
+node_modules
+apps/*/node_modules
+packages/*/node_modules
+packages/*/dist
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Env
+.env
+.env.*
+!.env.example
+
+gha_deploy*
+
+apps/web/public/media

@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/infrastructure/prisma/output"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["gmbovinos"]
+}
+
+enum LeadChannel {
+  WEBSITE
+  ADSENSE
+  WHATSAPP
+  INSTAGRAM
+  FACEBOOK
+  REFERRAL
+  OTHER
+
+  @@map("lead_channel")
+  @@schema("gmbovinos")
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  LOST
+
+  @@map("lead_status")
+  @@schema("gmbovinos")
+}
+
+enum MediaKind {
+  IMAGE
+  VIDEO
+  DOCUMENT
+
+  @@map("media_kind")
+  @@schema("gmbovinos")
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  fullName  String   @map("full_name")
+  email     String
+  phone     String?
+  subject   String?
+  message   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  leads     Lead[]
+
+  @@index([email])
+  @@map("contacts")
+  @@schema("gmbovinos")
+}
+
+model Lead {
+  id        String      @id @default(cuid())
+  fullName  String      @map("full_name")
+  email     String?
+  phone     String?
+  notes     String?
+  channel   LeadChannel @default(WEBSITE)
+  status    LeadStatus  @default(NEW)
+  contactId String?     @map("contact_id")
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+  contact   Contact?    @relation(fields: [contactId], references: [id], onDelete: SetNull)
+
+  @@index([channel])
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+  @@map("leads")
+  @@schema("gmbovinos")
+}
+
+model SiteSettings {
+  id                 String   @id @default(cuid())
+  siteUrl            String   @default("") @map("site_url")
+  siteName           String   @default("GM Bovinos") @map("site_name")
+  seoLocality        String   @default("Minas Gerais") @map("seo_locality")
+  noIndex            Boolean  @default(false) @map("no_index")
+  businessAddress    String   @default("") @map("business_address")
+  businessPhone      String   @default("") @map("business_phone")
+  contactEmail       String   @default("") @map("contact_email")
+  whatsappNumber     String   @default("") @map("whatsapp_number")
+  whatsappMessage    String   @default("") @map("whatsapp_message")
+  instagramUrl       String   @default("") @map("instagram_url")
+  facebookUrl        String   @default("") @map("facebook_url")
+  founderProfileUrl  String   @default("") @map("founder_profile_url")
+  defaultOgImageUrl  String   @default("/media/photos/02.webp") @map("default_og_image_url")
+  ga4MeasurementId   String   @default("") @map("ga4_measurement_id")
+  metaPixelId        String   @default("") @map("meta_pixel_id")
+  mapsEmbedUrl       String   @default("") @map("maps_embed_url")
+  geoLatitude        String   @default("-21.5354594") @map("geo_latitude")
+  geoLongitude       String   @default("-45.4830883") @map("geo_longitude")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+  @@schema("gmbovinos")
+}
+
+model SiteSection {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  title     String
+  payload   Json     @default("{}")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("site_sections")
+  @@schema("gmbovinos")
+}
+
+model GalleryItem {
+  id          String    @id @default(cuid())
+  kind        MediaKind @default(IMAGE)
+  url         String
+  storagePath String    @default("") @map("storage_path")
+  posterUrl   String?   @map("poster_url")
+  alt         String
+  caption     String    @default("")
+  sortOrder   Int       @default(0) @map("sort_order")
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@index([active])
+  @@index([sortOrder])
+  @@map("gallery_items")
+  @@schema("gmbovinos")
+}

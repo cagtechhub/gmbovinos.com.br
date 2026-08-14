@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/** Compensa o header sticky ao navegar por âncoras (#secao). */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  #como-funciona,
+  #atuacao,
+  #sobre-servico,
+  #gallery,
+  #sobre-nos,
+  #cta {
+    scroll-margin-top: 7rem;
+  }
+
+  ::selection {
+    @apply bg-primary-500/20 text-primary-700;
+  }
+}
+
+/**
+ * Conteúdo das seções da landing: no mobile alinha ao #cta
+ * (padding do `main` px-6 + px-4 = mesmo inset horizontal do `p-4` dentro do bloco do CTA).
+ * A partir de `lg`, só o padding horizontal do `main` (lg:px-10).
+ */
+@layer components {
+  .landing-section-inner {
+    @apply mx-auto w-full max-w-7xl px-4 lg:px-0;
+  }
+
+  /** Faixa full-bleed (mesma lógica do hero) para seções destacadas. */
+  .section-band {
+    @apply relative isolate ml-[calc(50%-50vw)] w-screen overflow-hidden;
+  }
+
+  /** Destaque institucional — azul sólido (sem gradiente). */
+  .section-band--brand {
+    @apply bg-primary-700;
+  }
+
+  /** Faixa clara intercalada — quebra continuidade entre seções claras. */
+  .section-band--muted {
+    @apply bg-gray-100;
+  }
+
+  /** Faixa branca intercalada — contraste limpo após bloco escuro. */
+  .section-band--surface {
+    @apply bg-white;
+  }
+
+  /** Título de seção — Inter (mesma família do corpo). */
+  .section-title {
+    @apply font-sans text-3xl font-semibold tracking-tight text-gray-900 md:text-4xl lg:text-[2.75rem] lg:leading-tight;
+  }
+
+  .section-title--light {
+    @apply text-white;
+  }
+
+  .section-lead {
+    @apply mx-auto mt-4 max-w-2xl text-base leading-relaxed text-gray-600 md:text-lg;
+  }
+
+  .section-lead--light {
+    @apply text-white/80;
+  }
+
+  /** Eyebrow institucional — fio couro + tipografia em maiúsculas. */
+  .section-eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent-600;
+  }
+  .section-eyebrow::before {
+    content: '';
+    @apply h-px w-8 bg-accent-500/80;
+  }
+
+  .section-eyebrow--light {
+    @apply text-accent-300;
+  }
+  .section-eyebrow--light::before {
+    @apply bg-accent-400/80;
+  }
+
+  /** Card limpo — borda única, sem ring duplicado. */
+  .landing-card {
+    @apply relative rounded-box border border-gray-300/80 bg-white/90 p-6 shadow-[0_1px_2px_rgb(17_24_39_/_0.04)] backdrop-blur-[2px] transition duration-300;
+  }
+  .landing-card:hover {
+    @apply border-accent-400/50 shadow-[0_12px_32px_-16px_rgb(30_58_138_/_0.28)];
+  }
+
+  .landing-card--flush {
+    @apply p-0 overflow-hidden;
+  }
+
+  .landing-card--glass {
+    @apply border-white/15 bg-white/5 text-white shadow-none backdrop-blur-md;
+  }
+  .landing-card--glass:hover {
+    @apply border-accent-400/40 shadow-none;
+  }
+
+  /** Linha superior decorativa em cards (variante couro). */
+  .card-accent-top {
+    @apply relative;
+  }
+  .card-accent-top::before {
+    content: '';
+    @apply pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-accent-500/80 to-transparent;
+  }
+
+  /** Faixa superior em seções escuras (gradiente couro). */
+  .section-accent-rule {
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent-500/80 to-transparent;
+  }
+
+  /** CTAs da landing. */
+  .btn-landing {
+    @apply inline-flex min-w-[11rem] items-center justify-center px-8 py-3.5 text-xs font-bold uppercase tracking-[0.2em] transition duration-300;
+  }
+
+  .btn-landing--light {
+    @apply border border-white/90 text-white hover:bg-white hover:text-primary-700;
+  }
+
+  .btn-landing--accent {
+    @apply border border-accent-400/90 bg-accent-500/15 text-white hover:border-accent-400 hover:bg-accent-500 hover:text-primary-700;
+  }
+
+  .btn-landing--solid {
+    @apply border border-accent-500 bg-accent-500 text-primary-700 hover:bg-accent-400 hover:border-accent-400;
+  }
+
+  /** Passo editorial (Como funciona) — sem card pesado. */
+  .step-rail {
+    @apply relative border-l-2 border-accent-500/35 pl-5 transition duration-300 hover:border-accent-500;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 700ms ease-out both;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 600ms ease-out both;
+  }
+
+  .reveal-delay-1 {
+    animation-delay: 80ms;
+  }
+  .reveal-delay-2 {
+    animation-delay: 160ms;
+  }
+  .reveal-delay-3 {
+    animation-delay: 240ms;
+  }
+  .reveal-delay-4 {
+    animation-delay: 320ms;
+  }
+
+  /** Pulso apenas no botão flutuante do WhatsApp (sombra teal, não azul). */
+  .whatsapp-pulse {
+    animation: pulseWpp 2.4s ease-in-out infinite;
+  }
+
+  .photo-warm {
+    filter: saturate(1.08) contrast(1.05) brightness(0.97) sepia(0.06);
+    transition: filter 0.55s ease, transform 8s ease;
+  }
+
+  .photo-kenburns {
+    transform: scale(1.04);
+  }
+
+  /** Atmosfera de página: mesh sutil primary + accent (não flat). */
+  .page-atmosphere {
+    background-color: #f8fafc;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 0% -10%, rgb(37 99 235 / 0.08), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgb(181 131 43 / 0.07), transparent 50%),
+      radial-gradient(ellipse 50% 35% at 50% 100%, rgb(30 58 138 / 0.05), transparent 55%);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulseWpp {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 12px 24px rgba(1, 163, 164, 0.28);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 18px 30px rgba(1, 137, 138, 0.42);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-in,
+  .whatsapp-pulse,
+  .photo-kenburns {
+    animation: none !important;
+    transform: none !important;
+  }
+}

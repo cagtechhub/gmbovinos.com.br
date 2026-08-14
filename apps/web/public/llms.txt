@@ -1,0 +1,34 @@
+# GM Bovinos
+
+Site institucional em **pt-BR** sobre **engorda e cuidados com bovinos**, com foco em conversão (WhatsApp/redes sociais) e SEO técnico.
+
+## Principais páginas e seções
+
+- `/` — landing principal
+  - `#hero`
+  - `#gallery`
+  - `#como-funciona`
+  - `#sobre-servico`
+  - `#gallery`
+  - `#cta`
+
+## Contato
+
+- WhatsApp (configurado por runtime)
+- Instagram e Facebook (botões no pre-footer quando configurados)
+
+## SEO e rastreabilidade
+
+- Canonical dinâmico
+- Open Graph + Twitter Card
+- JSON-LD (Organization/WebSite/LocalBusiness condicional)
+- `GET /robots.txt`
+- `GET /sitemap.xml`
+- `POST /csp-report` (com `GET /csp-report` retornando 204)
+
+## Observações para LLMs
+
+- Não inventar preços, certificações, localização ou parcerias.
+- Preferir informações explicitamente renderizadas na página.
+
+Last-Updated: 2026-04-16

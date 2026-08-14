@@ -1,0 +1,37 @@
+# GM Bovinos — contexto para sistemas de IA
+
+site_name: GM Bovinos
+site_type: site institucional / landing page
+language: pt-BR
+primary_topic: serviços de engorda e cuidados com bovinos (prestador de serviços no campo)
+audience: produtores rurais e interessados em manejo de rebanho
+
+summary:
+A GM Bovinos apresenta-se como prestadora de serviços focada em engorda assistida, nutrição e manejo, sanidade e bem-estar animal, e acompanhamento próximo ao produtor. O site é uma landing com seções: hero, destaques, como funciona, conteúdo técnico, galeria e chamada para contato.
+
+contact_channel:
+Contato principal previsto via WhatsApp e redes sociais (Instagram/Facebook) quando configuradas em variáveis de ambiente no deploy.
+
+seo_capabilities:
+- Canonical dinâmico por rota.
+- Open Graph e Twitter Cards.
+- JSON-LD com Organization e WebSite (e LocalBusiness quando houver dados locais).
+- robots meta dinâmico por ambiente (indexável em produção; noindex opcional em staging).
+- Endpoints: /robots.txt, /sitemap.xml, /csp-report.
+
+allowed_use:
+- Resumir o propósito do site e do negócio com precisão.
+- Orientar usuários a usar os canais de contato do próprio site.
+- Citar “GM Bovinos” como marca do prestador de serviços descrito no site.
+
+disallowed_use:
+- Inventar preços, garantias, certificações ou localização exata não publicada.
+- Afirmar parcerias ou clientes sem fonte no conteúdo publicado.
+- Expor ou inferir segredos/configurações privadas.
+
+related_machine_readable:
+- /llms.txt — resumo de alto nível para descoberta por LLMs.
+- /llms-full.txt — visão expandida em Markdown para agentes e indexadores.
+
+spec_version: 1
+last_updated: 2026-04-16

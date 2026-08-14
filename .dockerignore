@@ -1,0 +1,38 @@
+# dependências e artefactos locais
+node_modules
+**/node_modules
+**/.nuxt
+**/.output
+.data
+dist
+packages/*/dist
+.cache
+apps/backend/dist
+
+# git / IDE
+.git
+.cursor
+.vscode
+*.md
+!README.md
+
+# env (use compose ou --env-file em runtime)
+.env
+.env.*
+!.env.example
+
+# testes e qualidade
+coverage
+.nyc_output
+**/*.test.ts
+**/*.spec.ts
+
+# Docker
+docker-compose.override.yml
+
+# misc
+.DS_Store
+agents
+deploy
+scripts
+LICENSE
