@@ -4,10 +4,10 @@ import {
   type Lead,
   type UpdateLeadInput,
 } from "@gmbovinos/shared"
-import type { LeadRepositoryPort } from "../../application/ports/lead-repository.port.js"
-import { InfraError } from "../../domain/errors/infra-error.js"
+import type { LeadRepositoryPort } from "@/application/ports/lead-repository.port"
+import { InfraError } from "@/domain/errors/infra-error"
 import { Effect } from "effect"
-import type { PrismaClient } from "./output/client.js"
+import type { PrismaClient } from "@/infrastructure/prisma/output/client"
 
 type LeadRecord = {
   id: string

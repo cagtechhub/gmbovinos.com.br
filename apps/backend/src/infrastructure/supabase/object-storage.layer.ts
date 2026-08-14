@@ -1,9 +1,9 @@
-import { ObjectStorage } from "../../application/object-storage.context.js"
-import type { ObjectStoragePort } from "../../application/ports/object-storage.port.js"
-import { InfraError } from "../../domain/errors/infra-error.js"
+import { ObjectStorage } from "@/application/object-storage.context"
+import type { ObjectStoragePort } from "@/application/ports/object-storage.port"
+import { InfraError } from "@/domain/errors/infra-error"
 import { createClient } from "@supabase/supabase-js"
 import { Effect, Layer } from "effect"
-import { makeSupabaseObjectStorage } from "./supabase-object-storage.adapter.js"
+import { makeSupabaseObjectStorage } from "@/infrastructure/supabase/supabase-object-storage.adapter"
 
 const missingStorage: ObjectStoragePort = {
   upload: () =>

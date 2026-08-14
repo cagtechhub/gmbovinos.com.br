@@ -1,8 +1,8 @@
 import type { CreateContactInput } from "@gmbovinos/shared"
 import { Effect } from "effect"
 import nodemailer from "nodemailer"
-import { ContactRepository } from "../contact-repository.context.js"
-import { LeadRepository } from "../lead-repository.context.js"
+import { ContactRepository } from "@/application/contact-repository.context"
+import { LeadRepository } from "@/application/lead-repository.context"
 
 const buildLeadNotes = (input: CreateContactInput) => {
   const parts = [input.subject, input.message]

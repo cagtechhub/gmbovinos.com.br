@@ -1,7 +1,7 @@
-import { GalleryRepository } from "../../application/gallery-repository.context.js"
+import { GalleryRepository } from "@/application/gallery-repository.context"
 import { Effect, Layer } from "effect"
-import { makePrismaGalleryRepository } from "./prisma-gallery-repository.adapter.js"
-import { PrismaService } from "./prisma.service.js"
+import { makePrismaGalleryRepository } from "@/infrastructure/prisma/prisma-gallery-repository.adapter"
+import { PrismaService } from "@/infrastructure/prisma/prisma.service"
 
 export const GalleryRepositoryFromPrisma = Layer.effect(
   GalleryRepository,

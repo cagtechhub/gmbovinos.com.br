@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express"
 import {
   getSupabaseAuthClient,
   parseAllowedAdminEmails,
-} from "../../infrastructure/supabase/supabase-auth.js"
+} from "@/infrastructure/supabase/supabase-auth"
 
 export const requireAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {

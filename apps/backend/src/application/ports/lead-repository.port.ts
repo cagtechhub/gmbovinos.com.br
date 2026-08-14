@@ -1,6 +1,6 @@
 import type { CreateLeadInput, Lead, UpdateLeadInput } from "@gmbovinos/shared"
 import type { Effect } from "effect"
-import type { InfraError } from "../../domain/errors/infra-error.js"
+import type { InfraError } from "@/domain/errors/infra-error"
 
 export interface LeadRepositoryPort {
   readonly list: () => Effect.Effect<Lead[], InfraError, never>

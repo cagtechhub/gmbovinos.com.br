@@ -1,7 +1,7 @@
-import { DatabaseHealth } from "../../application/database-health.context.js"
+import { DatabaseHealth } from "@/application/database-health.context"
 import { Effect, Layer } from "effect"
-import { makePrismaDatabaseHealth } from "./prisma-database-health.adapter.js"
-import { PrismaService } from "./prisma.service.js"
+import { makePrismaDatabaseHealth } from "@/infrastructure/prisma/prisma-database-health.adapter"
+import { PrismaService } from "@/infrastructure/prisma/prisma.service"
 
 export const DatabaseHealthFromPrisma = Layer.effect(
   DatabaseHealth,

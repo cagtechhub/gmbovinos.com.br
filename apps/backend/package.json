@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "prebuild": "yarn workspace @gmbovinos/shared build",
-    "build": "prisma generate && tsc -p tsconfig.build.json && mkdir -p dist/infrastructure/prisma/output && cp -a src/infrastructure/prisma/output/. dist/infrastructure/prisma/output/",
+    "build": "prisma generate && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json -f -fe .js && mkdir -p dist/infrastructure/prisma/output && cp -a src/infrastructure/prisma/output/. dist/infrastructure/prisma/output/",
     "start": "node dist/main.js",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
@@ -36,6 +36,7 @@
     "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.20.0",
     "prisma": "^7.8.0",
+    "tsc-alias": "^1.9.1",
     "tsx": "^4.19.3",
     "typescript": "^5.9.0"
   }

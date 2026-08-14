@@ -18,7 +18,7 @@ import {
   updateSection,
   updateSiteSettings,
   uploadGalleryItem,
-} from "../../application/index.js"
+} from "@/application/index"
 import {
   contactSchema,
   createContactSchema,
@@ -39,9 +39,9 @@ import {
 import { Cause, Effect, Exit, ManagedRuntime } from "effect"
 import express, { type Express, type Request, type Response } from "express"
 import multer from "multer"
-import type { AppServices } from "../../infrastructure/runtime.js"
-import { requireAdmin } from "./require-admin.js"
-import { ALLOWED_MEDIA_MIME_TYPES } from "../../domain/media/media-kind.js"
+import type { AppServices } from "@/infrastructure/runtime"
+import { requireAdmin } from "@/presentation/http/require-admin"
+import { ALLOWED_MEDIA_MIME_TYPES } from "@/domain/media/media-kind"
 
 const upload = multer({
   storage: multer.memoryStorage(),

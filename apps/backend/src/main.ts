@@ -1,7 +1,7 @@
 import "dotenv/config"
 import { ManagedRuntime } from "effect"
-import { AppRuntimeLayer } from "./infrastructure/runtime.js"
-import { createApp } from "./presentation/http/create-app.js"
+import { AppRuntimeLayer } from "@/infrastructure/runtime"
+import { createApp } from "@/presentation/http/create-app"
 
 const runtime = ManagedRuntime.make(AppRuntimeLayer)
 const app = createApp(runtime)

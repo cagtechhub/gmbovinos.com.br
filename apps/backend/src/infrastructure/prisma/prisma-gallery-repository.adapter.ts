@@ -4,10 +4,10 @@ import {
   type GalleryItem,
   type UpdateGalleryItemInput,
 } from "@gmbovinos/shared"
-import type { GalleryRepositoryPort } from "../../application/ports/gallery-repository.port.js"
-import { InfraError } from "../../domain/errors/infra-error.js"
+import type { GalleryRepositoryPort } from "@/application/ports/gallery-repository.port"
+import { InfraError } from "@/domain/errors/infra-error"
 import { Effect } from "effect"
-import type { PrismaClient } from "./output/client.js"
+import type { PrismaClient } from "@/infrastructure/prisma/output/client"
 
 type GalleryRecord = {
   id: string

@@ -3,10 +3,10 @@ import {
   type SiteSettings,
   type UpdateSiteSettingsInput,
 } from "@gmbovinos/shared"
-import type { SiteSettingsRepositoryPort } from "../../application/ports/site-settings-repository.port.js"
-import { InfraError } from "../../domain/errors/infra-error.js"
+import type { SiteSettingsRepositoryPort } from "@/application/ports/site-settings-repository.port"
+import { InfraError } from "@/domain/errors/infra-error"
 import { Effect } from "effect"
-import type { PrismaClient } from "./output/client.js"
+import type { PrismaClient } from "@/infrastructure/prisma/output/client"
 
 const DEFAULT_SETTINGS_ID = "default"
 

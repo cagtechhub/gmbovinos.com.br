@@ -1,6 +1,6 @@
 import type { UpdateSiteSettingsInput } from "@gmbovinos/shared"
 import { Effect } from "effect"
-import { SiteSettingsRepository } from "../site-settings-repository.context.js"
+import { SiteSettingsRepository } from "@/application/site-settings-repository.context"
 
 export const getSiteSettings = Effect.gen(function* () {
   const repo = yield* SiteSettingsRepository

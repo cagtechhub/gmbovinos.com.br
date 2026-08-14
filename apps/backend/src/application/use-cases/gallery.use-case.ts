@@ -3,10 +3,10 @@ import type {
   UpdateGalleryItemInput,
 } from "@gmbovinos/shared"
 import { Effect } from "effect"
-import { InfraError } from "../../domain/errors/infra-error.js"
-import { resolveMediaKind } from "../../domain/media/media-kind.js"
-import { GalleryRepository } from "../gallery-repository.context.js"
-import { ObjectStorage } from "../object-storage.context.js"
+import { InfraError } from "@/domain/errors/infra-error"
+import { resolveMediaKind } from "@/domain/media/media-kind"
+import { GalleryRepository } from "@/application/gallery-repository.context"
+import { ObjectStorage } from "@/application/object-storage.context"
 
 export const listGallery = (opts?: { activeOnly?: boolean }) =>
   Effect.gen(function* () {

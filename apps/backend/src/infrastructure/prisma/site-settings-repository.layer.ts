@@ -1,7 +1,7 @@
-import { SiteSettingsRepository } from "../../application/site-settings-repository.context.js"
+import { SiteSettingsRepository } from "@/application/site-settings-repository.context"
 import { Effect, Layer } from "effect"
-import { makePrismaSiteSettingsRepository } from "./prisma-site-settings-repository.adapter.js"
-import { PrismaService } from "./prisma.service.js"
+import { makePrismaSiteSettingsRepository } from "@/infrastructure/prisma/prisma-site-settings-repository.adapter"
+import { PrismaService } from "@/infrastructure/prisma/prisma.service"
 
 export const SiteSettingsRepositoryFromPrisma = Layer.effect(
   SiteSettingsRepository,

@@ -6,10 +6,10 @@ import {
   type SiteSection,
   type UpdateSiteSectionInput,
 } from "@gmbovinos/shared"
-import type { SiteSectionRepositoryPort } from "../../application/ports/site-section-repository.port.js"
-import { InfraError } from "../../domain/errors/infra-error.js"
+import type { SiteSectionRepositoryPort } from "@/application/ports/site-section-repository.port"
+import { InfraError } from "@/domain/errors/infra-error"
 import { Effect } from "effect"
-import type { Prisma, PrismaClient } from "./output/client.js"
+import type { Prisma, PrismaClient } from "@/infrastructure/prisma/output/client"
 
 const mapSection = (record: {
   id: string

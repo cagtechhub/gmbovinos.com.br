@@ -1,7 +1,7 @@
 import type { SectionKey, UpdateSiteSectionInput } from "@gmbovinos/shared"
 import { Effect } from "effect"
-import { InfraError } from "../../domain/errors/infra-error.js"
-import { SiteSectionRepository } from "../site-section-repository.context.js"
+import { InfraError } from "@/domain/errors/infra-error"
+import { SiteSectionRepository } from "@/application/site-section-repository.context"
 
 export const listSections = Effect.gen(function* () {
   const repo = yield* SiteSectionRepository

@@ -1,8 +1,8 @@
 import { contactSchema, type Contact, type CreateContactInput } from "@gmbovinos/shared"
-import type { ContactRepositoryPort } from "../../application/ports/contact-repository.port.js"
-import { InfraError } from "../../domain/errors/infra-error.js"
+import type { ContactRepositoryPort } from "@/application/ports/contact-repository.port"
+import { InfraError } from "@/domain/errors/infra-error"
 import { Effect } from "effect"
-import type { PrismaClient } from "./output/client.js"
+import type { PrismaClient } from "@/infrastructure/prisma/output/client"
 
 const mapContact = (record: {
   id: string

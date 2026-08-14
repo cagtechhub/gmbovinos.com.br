@@ -1,7 +1,7 @@
-import type { DatabaseHealthPort } from "../../application/ports/database-health.port.js"
-import { InfraError } from "../../domain/errors/infra-error.js"
+import type { DatabaseHealthPort } from "@/application/ports/database-health.port"
+import { InfraError } from "@/domain/errors/infra-error"
 import { Effect } from "effect"
-import type { PrismaClient } from "./output/client.js"
+import type { PrismaClient } from "@/infrastructure/prisma/output/client"
 
 export const makePrismaDatabaseHealth = (prisma: PrismaClient): DatabaseHealthPort => ({
   ping: () =>

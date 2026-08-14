@@ -1,7 +1,7 @@
 import { PrismaPg } from "@prisma/adapter-pg"
 import { Context, Effect, Layer } from "effect"
 import pg from "pg"
-import { PrismaClient } from "./output/client.js"
+import { PrismaClient } from "@/infrastructure/prisma/output/client"
 
 export class PrismaService extends Context.Tag("@gmbovinos/PrismaService")<
   PrismaService,
