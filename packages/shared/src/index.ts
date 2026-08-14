@@ -23,8 +23,10 @@ export {
 export {
   siteSettingsSchema,
   updateSiteSettingsSchema,
+  brandAssetKindSchema,
   type SiteSettings,
   type UpdateSiteSettingsInput,
+  type BrandAssetKind,
 } from './schemas/settings.js'
 export {
   sectionKeySchema,

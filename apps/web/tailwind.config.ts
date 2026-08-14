@@ -39,6 +39,10 @@ const config: Partial<Config> = {
           900: '#111827',
         },
       },
+      boxShadow: {
+        card: '0 4px 24px rgba(17, 24, 39, 0.08)',
+        soft: '0 24px 80px rgba(17, 24, 39, 0.12)',
+      },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],

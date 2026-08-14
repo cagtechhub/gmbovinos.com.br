@@ -39,6 +39,7 @@ export type SiteSettingsMinAggregateOutputType = {
   facebookUrl: string | null
   founderProfileUrl: string | null
   defaultOgImageUrl: string | null
+  faviconUrl: string | null
   ga4MeasurementId: string | null
   metaPixelId: string | null
   mapsEmbedUrl: string | null
@@ -63,6 +64,7 @@ export type SiteSettingsMaxAggregateOutputType = {
   facebookUrl: string | null
   founderProfileUrl: string | null
   defaultOgImageUrl: string | null
+  faviconUrl: string | null
   ga4MeasurementId: string | null
   metaPixelId: string | null
   mapsEmbedUrl: string | null
@@ -87,6 +89,7 @@ export type SiteSettingsCountAggregateOutputType = {
   facebookUrl: number
   founderProfileUrl: number
   defaultOgImageUrl: number
+  faviconUrl: number
   ga4MeasurementId: number
   metaPixelId: number
   mapsEmbedUrl: number
@@ -113,6 +116,7 @@ export type SiteSettingsMinAggregateInputType = {
   facebookUrl?: true
   founderProfileUrl?: true
   defaultOgImageUrl?: true
+  faviconUrl?: true
   ga4MeasurementId?: true
   metaPixelId?: true
   mapsEmbedUrl?: true
@@ -137,6 +141,7 @@ export type SiteSettingsMaxAggregateInputType = {
   facebookUrl?: true
   founderProfileUrl?: true
   defaultOgImageUrl?: true
+  faviconUrl?: true
   ga4MeasurementId?: true
   metaPixelId?: true
   mapsEmbedUrl?: true
@@ -161,6 +166,7 @@ export type SiteSettingsCountAggregateInputType = {
   facebookUrl?: true
   founderProfileUrl?: true
   defaultOgImageUrl?: true
+  faviconUrl?: true
   ga4MeasurementId?: true
   metaPixelId?: true
   mapsEmbedUrl?: true
@@ -258,6 +264,7 @@ export type SiteSettingsGroupByOutputType = {
   facebookUrl: string
   founderProfileUrl: string
   defaultOgImageUrl: string
+  faviconUrl: string
   ga4MeasurementId: string
   metaPixelId: string
   mapsEmbedUrl: string
@@ -303,6 +310,7 @@ export type SiteSettingsWhereInput = {
   facebookUrl?: Prisma.StringFilter<"SiteSettings"> | string
   founderProfileUrl?: Prisma.StringFilter<"SiteSettings"> | string
   defaultOgImageUrl?: Prisma.StringFilter<"SiteSettings"> | string
+  faviconUrl?: Prisma.StringFilter<"SiteSettings"> | string
   ga4MeasurementId?: Prisma.StringFilter<"SiteSettings"> | string
   metaPixelId?: Prisma.StringFilter<"SiteSettings"> | string
   mapsEmbedUrl?: Prisma.StringFilter<"SiteSettings"> | string
@@ -327,6 +335,7 @@ export type SiteSettingsOrderByWithRelationInput = {
   facebookUrl?: Prisma.SortOrder
   founderProfileUrl?: Prisma.SortOrder
   defaultOgImageUrl?: Prisma.SortOrder
+  faviconUrl?: Prisma.SortOrder
   ga4MeasurementId?: Prisma.SortOrder
   metaPixelId?: Prisma.SortOrder
   mapsEmbedUrl?: Prisma.SortOrder
@@ -354,6 +363,7 @@ export type SiteSettingsWhereUniqueInput = Prisma.AtLeast<{
   facebookUrl?: Prisma.StringFilter<"SiteSettings"> | string
   founderProfileUrl?: Prisma.StringFilter<"SiteSettings"> | string
   defaultOgImageUrl?: Prisma.StringFilter<"SiteSettings"> | string
+  faviconUrl?: Prisma.StringFilter<"SiteSettings"> | string
   ga4MeasurementId?: Prisma.StringFilter<"SiteSettings"> | string
   metaPixelId?: Prisma.StringFilter<"SiteSettings"> | string
   mapsEmbedUrl?: Prisma.StringFilter<"SiteSettings"> | string
@@ -378,6 +388,7 @@ export type SiteSettingsOrderByWithAggregationInput = {
   facebookUrl?: Prisma.SortOrder
   founderProfileUrl?: Prisma.SortOrder
   defaultOgImageUrl?: Prisma.SortOrder
+  faviconUrl?: Prisma.SortOrder
   ga4MeasurementId?: Prisma.SortOrder
   metaPixelId?: Prisma.SortOrder
   mapsEmbedUrl?: Prisma.SortOrder
@@ -408,6 +419,7 @@ export type SiteSettingsScalarWhereWithAggregatesInput = {
   facebookUrl?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
   founderProfileUrl?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
   defaultOgImageUrl?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
+  faviconUrl?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
   ga4MeasurementId?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
   metaPixelId?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
   mapsEmbedUrl?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
@@ -432,6 +444,7 @@ export type SiteSettingsCreateInput = {
   facebookUrl?: string
   founderProfileUrl?: string
   defaultOgImageUrl?: string
+  faviconUrl?: string
   ga4MeasurementId?: string
   metaPixelId?: string
   mapsEmbedUrl?: string
@@ -456,6 +469,7 @@ export type SiteSettingsUncheckedCreateInput = {
   facebookUrl?: string
   founderProfileUrl?: string
   defaultOgImageUrl?: string
+  faviconUrl?: string
   ga4MeasurementId?: string
   metaPixelId?: string
   mapsEmbedUrl?: string
@@ -480,6 +494,7 @@ export type SiteSettingsUpdateInput = {
   facebookUrl?: Prisma.StringFieldUpdateOperationsInput | string
   founderProfileUrl?: Prisma.StringFieldUpdateOperationsInput | string
   defaultOgImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  faviconUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ga4MeasurementId?: Prisma.StringFieldUpdateOperationsInput | string
   metaPixelId?: Prisma.StringFieldUpdateOperationsInput | string
   mapsEmbedUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -504,6 +519,7 @@ export type SiteSettingsUncheckedUpdateInput = {
   facebookUrl?: Prisma.StringFieldUpdateOperationsInput | string
   founderProfileUrl?: Prisma.StringFieldUpdateOperationsInput | string
   defaultOgImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  faviconUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ga4MeasurementId?: Prisma.StringFieldUpdateOperationsInput | string
   metaPixelId?: Prisma.StringFieldUpdateOperationsInput | string
   mapsEmbedUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -528,6 +544,7 @@ export type SiteSettingsCreateManyInput = {
   facebookUrl?: string
   founderProfileUrl?: string
   defaultOgImageUrl?: string
+  faviconUrl?: string
   ga4MeasurementId?: string
   metaPixelId?: string
   mapsEmbedUrl?: string
@@ -552,6 +569,7 @@ export type SiteSettingsUpdateManyMutationInput = {
   facebookUrl?: Prisma.StringFieldUpdateOperationsInput | string
   founderProfileUrl?: Prisma.StringFieldUpdateOperationsInput | string
   defaultOgImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  faviconUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ga4MeasurementId?: Prisma.StringFieldUpdateOperationsInput | string
   metaPixelId?: Prisma.StringFieldUpdateOperationsInput | string
   mapsEmbedUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -576,6 +594,7 @@ export type SiteSettingsUncheckedUpdateManyInput = {
   facebookUrl?: Prisma.StringFieldUpdateOperationsInput | string
   founderProfileUrl?: Prisma.StringFieldUpdateOperationsInput | string
   defaultOgImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  faviconUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ga4MeasurementId?: Prisma.StringFieldUpdateOperationsInput | string
   metaPixelId?: Prisma.StringFieldUpdateOperationsInput | string
   mapsEmbedUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -600,6 +619,7 @@ export type SiteSettingsCountOrderByAggregateInput = {
   facebookUrl?: Prisma.SortOrder
   founderProfileUrl?: Prisma.SortOrder
   defaultOgImageUrl?: Prisma.SortOrder
+  faviconUrl?: Prisma.SortOrder
   ga4MeasurementId?: Prisma.SortOrder
   metaPixelId?: Prisma.SortOrder
   mapsEmbedUrl?: Prisma.SortOrder
@@ -624,6 +644,7 @@ export type SiteSettingsMaxOrderByAggregateInput = {
   facebookUrl?: Prisma.SortOrder
   founderProfileUrl?: Prisma.SortOrder
   defaultOgImageUrl?: Prisma.SortOrder
+  faviconUrl?: Prisma.SortOrder
   ga4MeasurementId?: Prisma.SortOrder
   metaPixelId?: Prisma.SortOrder
   mapsEmbedUrl?: Prisma.SortOrder
@@ -648,6 +669,7 @@ export type SiteSettingsMinOrderByAggregateInput = {
   facebookUrl?: Prisma.SortOrder
   founderProfileUrl?: Prisma.SortOrder
   defaultOgImageUrl?: Prisma.SortOrder
+  faviconUrl?: Prisma.SortOrder
   ga4MeasurementId?: Prisma.SortOrder
   metaPixelId?: Prisma.SortOrder
   mapsEmbedUrl?: Prisma.SortOrder
@@ -678,6 +700,7 @@ export type SiteSettingsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   facebookUrl?: boolean
   founderProfileUrl?: boolean
   defaultOgImageUrl?: boolean
+  faviconUrl?: boolean
   ga4MeasurementId?: boolean
   metaPixelId?: boolean
   mapsEmbedUrl?: boolean
@@ -702,6 +725,7 @@ export type SiteSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   facebookUrl?: boolean
   founderProfileUrl?: boolean
   defaultOgImageUrl?: boolean
+  faviconUrl?: boolean
   ga4MeasurementId?: boolean
   metaPixelId?: boolean
   mapsEmbedUrl?: boolean
@@ -726,6 +750,7 @@ export type SiteSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   facebookUrl?: boolean
   founderProfileUrl?: boolean
   defaultOgImageUrl?: boolean
+  faviconUrl?: boolean
   ga4MeasurementId?: boolean
   metaPixelId?: boolean
   mapsEmbedUrl?: boolean
@@ -750,6 +775,7 @@ export type SiteSettingsSelectScalar = {
   facebookUrl?: boolean
   founderProfileUrl?: boolean
   defaultOgImageUrl?: boolean
+  faviconUrl?: boolean
   ga4MeasurementId?: boolean
   metaPixelId?: boolean
   mapsEmbedUrl?: boolean
@@ -759,7 +785,7 @@ export type SiteSettingsSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteUrl" | "siteName" | "seoLocality" | "noIndex" | "businessAddress" | "businessPhone" | "contactEmail" | "whatsappNumber" | "whatsappMessage" | "instagramUrl" | "facebookUrl" | "founderProfileUrl" | "defaultOgImageUrl" | "ga4MeasurementId" | "metaPixelId" | "mapsEmbedUrl" | "geoLatitude" | "geoLongitude" | "createdAt" | "updatedAt", ExtArgs["result"]["siteSettings"]>
+export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteUrl" | "siteName" | "seoLocality" | "noIndex" | "businessAddress" | "businessPhone" | "contactEmail" | "whatsappNumber" | "whatsappMessage" | "instagramUrl" | "facebookUrl" | "founderProfileUrl" | "defaultOgImageUrl" | "faviconUrl" | "ga4MeasurementId" | "metaPixelId" | "mapsEmbedUrl" | "geoLatitude" | "geoLongitude" | "createdAt" | "updatedAt", ExtArgs["result"]["siteSettings"]>
 
 export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SiteSettings"
@@ -779,6 +805,7 @@ export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     facebookUrl: string
     founderProfileUrl: string
     defaultOgImageUrl: string
+    faviconUrl: string
     ga4MeasurementId: string
     metaPixelId: string
     mapsEmbedUrl: string
@@ -1223,6 +1250,7 @@ export interface SiteSettingsFieldRefs {
   readonly facebookUrl: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly founderProfileUrl: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly defaultOgImageUrl: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly faviconUrl: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly ga4MeasurementId: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly metaPixelId: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly mapsEmbedUrl: Prisma.FieldRef<"SiteSettings", 'String'>

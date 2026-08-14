@@ -30,6 +30,7 @@ export default defineNuxtPlugin({
       merge('facebookUrl', settings.facebookUrl)
       merge('founderProfileUrl', settings.founderProfileUrl)
       merge('defaultOgImageUrl', settings.defaultOgImageUrl)
+      merge('faviconUrl', settings.faviconUrl)
       merge('ga4MeasurementId', settings.ga4MeasurementId)
       merge('metaPixelId', settings.metaPixelId)
       merge('mapsEmbedUrl', settings.mapsEmbedUrl)

@@ -25,6 +25,7 @@ const mapSettings = (record: {
   facebookUrl: string
   founderProfileUrl: string
   defaultOgImageUrl: string
+  faviconUrl: string
   ga4MeasurementId: string
   metaPixelId: string
   mapsEmbedUrl: string

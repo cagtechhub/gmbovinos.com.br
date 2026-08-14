@@ -15,6 +15,7 @@ export const siteSettingsSchema = z.object({
   facebookUrl: z.string().default(''),
   founderProfileUrl: z.string().default(''),
   defaultOgImageUrl: z.string().default('/media/photos/02.webp'),
+  faviconUrl: z.string().default('/favicon.png'),
   ga4MeasurementId: z.string().default(''),
   metaPixelId: z.string().default(''),
   mapsEmbedUrl: z.string().default(''),
@@ -38,6 +39,7 @@ export const updateSiteSettingsSchema = z.object({
   facebookUrl: z.string().trim().max(500).optional(),
   founderProfileUrl: z.string().trim().max(500).optional(),
   defaultOgImageUrl: z.string().trim().max(1000).optional(),
+  faviconUrl: z.string().trim().max(1000).optional(),
   ga4MeasurementId: z.string().trim().max(40).optional(),
   metaPixelId: z.string().trim().max(40).optional(),
   mapsEmbedUrl: z.string().trim().max(2000).optional(),
@@ -45,5 +47,8 @@ export const updateSiteSettingsSchema = z.object({
   geoLongitude: z.string().trim().max(40).optional(),
 })
 
+export const brandAssetKindSchema = z.enum(['favicon', 'og'])
+
 export type SiteSettings = z.infer<typeof siteSettingsSchema>
 export type UpdateSiteSettingsInput = z.infer<typeof updateSiteSettingsSchema>
+export type BrandAssetKind = z.infer<typeof brandAssetKindSchema>

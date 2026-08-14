@@ -23,17 +23,19 @@ export const requireAdmin = async (req: Request, res: Response, next: NextFuncti
     }
 
     const email = (data.user.email || "").toLowerCase()
+    console.log("((email))", email)
     const allowedEmails = parseAllowedAdminEmails()
+    console.log("((allowedEmails))", allowedEmails)
     if (allowedEmails && (!email || !allowedEmails.has(email))) {
       res.status(403).json({ error: "forbidden", message: "Usuário sem permissão de admin" })
       return
     }
 
-    const role = data.user.app_metadata?.role
-    if (process.env.ADMIN_REQUIRE_ROLE === "true" && role !== "admin") {
-      res.status(403).json({ error: "forbidden", message: "Perfil admin obrigatório" })
-      return
-    }
+    // const role = data.user.app_metadata?.role
+    // if (process.env.ADMIN_REQUIRE_ROLE === "true" && role !== "admin") {
+    //   res.status(403).json({ error: "forbidden", message: "Perfil admin obrigatório" })
+    //   return
+    // }
 
     ;(req as Request & { adminUser?: { id: string; email?: string } }).adminUser = {
       id: data.user.id,

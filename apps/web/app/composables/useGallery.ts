@@ -25,25 +25,26 @@ export const useGallery = () => {
 
   const { data, pending, error, refresh } = useAsyncData(
     'site-gallery',
-    async () => {
-      const items = await $fetch<GalleryItem[]>(`${apiBase.value}/gallery`)
-      const mapped = (items || [])
-        .map(mapGalleryItem)
-        .filter((item): item is LandingGalleryItem => item !== null)
-      return mapped.length > 0 ? mapped : null
-    },
+    () => $fetch<GalleryItem[]>(`${apiBase.value}/gallery`),
     {
-      default: () => null,
-      getCachedData: (key, nuxtApp) => {
-        const cached = nuxtApp.payload.data[key] ?? nuxtApp.static.data[key]
-        if (cached === null) return undefined
-        return cached
-      },
-    }
+      default: () => [] as GalleryItem[],
+    },
+  )
+
+  const items = computed(() => {
+    const mapped = (data.value || [])
+      .map(mapGalleryItem)
+      .filter((item): item is LandingGalleryItem => item !== null)
+    return mapped.length > 0 ? mapped : null
+  })
+
+  const heroImageUrl = computed(
+    () => data.value?.find((item) => item.featuredHero && item.kind === 'IMAGE')?.url || '',
   )
 
   return {
-    items: data,
+    items,
+    heroImageUrl,
     pending,
     error,
     refresh,

@@ -21,7 +21,7 @@ export {
   listLeads,
   updateLead,
 } from "@/application/use-cases/create-lead.use-case"
-export { getSiteSettings, updateSiteSettings } from "@/application/use-cases/site-settings.use-case"
+export { getSiteSettings, updateSiteSettings, uploadBrandAsset } from "@/application/use-cases/site-settings.use-case"
 export {
   getSectionByKey,
   listSections,
@@ -35,4 +35,5 @@ export {
   reorderGallery,
   updateGalleryItem,
   uploadGalleryItem,
+  uploadGalleryItems,
 } from "@/application/use-cases/gallery.use-case"

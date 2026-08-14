@@ -26,6 +26,7 @@ const form = reactive({
   facebookUrl: '',
   founderProfileUrl: '',
   defaultOgImageUrl: '',
+  faviconUrl: '',
   ga4MeasurementId: '',
   metaPixelId: '',
   mapsEmbedUrl: '',
@@ -47,6 +48,7 @@ const applySettings = (item: SiteSettings) => {
   form.facebookUrl = item.facebookUrl
   form.founderProfileUrl = item.founderProfileUrl
   form.defaultOgImageUrl = item.defaultOgImageUrl
+  form.faviconUrl = item.faviconUrl
   form.ga4MeasurementId = item.ga4MeasurementId
   form.metaPixelId = item.metaPixelId
   form.mapsEmbedUrl = item.mapsEmbedUrl
@@ -80,6 +82,29 @@ const onSubmit = async () => {
   }
 }
 
+const uploadingAsset = ref<'favicon' | 'og' | null>(null)
+
+const onUploadAsset = async (kind: 'favicon' | 'og', event: Event) => {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+  uploadingAsset.value = kind
+  error.value = ''
+  success.value = ''
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('kind', kind)
+    applySettings(await api.uploadBrandAsset(formData))
+    success.value = kind === 'favicon' ? 'Favicon enviado.' : 'Imagem OG enviada.'
+  } catch {
+    error.value = 'Falha no upload da imagem.'
+  } finally {
+    uploadingAsset.value = null
+    input.value = ''
+  }
+}
+
 await load()
 </script>
 
@@ -97,7 +122,7 @@ await load()
 
     <form
       v-else
-      class="space-y-4 rounded-xl border border-gray-300 bg-white p-6"
+      class="portal-card space-y-4 hover:translate-y-0"
       @submit.prevent="onSubmit"
     >
       <div class="grid gap-4 sm:grid-cols-2">
@@ -183,13 +208,56 @@ await load()
             class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
           />
         </label>
-        <label class="block text-sm text-gray-600 sm:col-span-2">
-          Imagem OG padrão (URL)
-          <input
-            v-model="form.defaultOgImageUrl"
-            class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
-          />
-        </label>
+        <div class="sm:col-span-2 grid gap-4 sm:grid-cols-2">
+          <div class="rounded-control border border-gray-300 p-4">
+            <p class="text-sm font-medium text-gray-900">Favicon</p>
+            <p class="mt-1 text-xs text-gray-600">PNG, ICO, SVG ou WebP.</p>
+            <img
+              v-if="form.faviconUrl"
+              :src="form.faviconUrl"
+              alt="Favicon atual"
+              class="mt-3 size-12 rounded-control border border-gray-300 bg-white object-contain p-1 shadow-card"
+            />
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml,image/x-icon,.ico"
+              class="mt-3 block w-full text-sm"
+              :disabled="uploadingAsset === 'favicon'"
+              @change="onUploadAsset('favicon', $event)"
+            />
+            <label class="mt-3 block text-sm text-gray-600">
+              URL
+              <input
+                v-model="form.faviconUrl"
+                class="focus-ring mt-1 w-full rounded-control border border-gray-300 px-3 py-2"
+              />
+            </label>
+          </div>
+          <div class="rounded-control border border-gray-300 p-4">
+            <p class="text-sm font-medium text-gray-900">Imagem OG padrão</p>
+            <p class="mt-1 text-xs text-gray-600">PNG, JPEG ou WebP (recomendado 1200×630).</p>
+            <img
+              v-if="form.defaultOgImageUrl"
+              :src="form.defaultOgImageUrl"
+              alt="Imagem Open Graph atual"
+              class="mt-3 h-24 w-full rounded-control border border-gray-300 object-cover shadow-card"
+            />
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              class="mt-3 block w-full text-sm"
+              :disabled="uploadingAsset === 'og'"
+              @change="onUploadAsset('og', $event)"
+            />
+            <label class="mt-3 block text-sm text-gray-600">
+              URL
+              <input
+                v-model="form.defaultOgImageUrl"
+                class="focus-ring mt-1 w-full rounded-control border border-gray-300 px-3 py-2"
+              />
+            </label>
+          </div>
+        </div>
         <label class="block text-sm text-gray-600 sm:col-span-2">
           Embed do Google Maps (URL do iframe)
           <textarea
@@ -235,7 +303,7 @@ await load()
 
       <button
         type="submit"
-        class="rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-60"
+        class="btn-primary focus-ring"
         :disabled="saving"
       >
         {{ saving ? 'Salvando…' : 'Salvar configurações' }}

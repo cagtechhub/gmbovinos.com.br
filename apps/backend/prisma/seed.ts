@@ -237,6 +237,7 @@ async function main() {
       whatsappMessage:
         "Olá! Gostaria de falar sobre compra ou venda de gado (e engorda/manejo, se precisar).",
       defaultOgImageUrl: "/media/photos/02.webp",
+      faviconUrl: "/favicon.png",
       mapsEmbedUrl,
       geoLatitude: "-21.5354594",
       geoLongitude: "-45.4830883",

@@ -28,12 +28,24 @@ export function useSiteSeoHead() {
     return full.length > 160 ? `${full.slice(0, 157)}…` : full
   })
 
-  const ogImage = computed(() => {
+  const resolvePublicAsset = (value: string, fallbackPath: string) => {
     const o = origin.value
-    if (!o) return ''
+    const raw = value.trim()
+    if (!raw) return o ? `${o}${fallbackPath}` : fallbackPath
+    if (/^https?:\/\//i.test(raw)) return raw
+    const path = raw.startsWith('/') ? raw : `/${raw}`
+    return o ? `${o}${path}` : path
+  }
+
+  const ogImage = computed(() => {
+    const cms = String(config.public.defaultOgImageUrl || '').trim()
     const path = String(config.public.defaultOgImagePath || '/media/photos/02.webp').trim()
-    return `${o}${path.startsWith('/') ? path : `/${path}`}`
+    return resolvePublicAsset(cms || path, '/media/photos/02.webp')
   })
+
+  const faviconHref = computed(() =>
+    resolvePublicAsset(String(config.public.faviconUrl || '').trim(), '/favicon.png'),
+  )
 
   useSeoMeta({
     title: pageTitle,
@@ -216,11 +228,11 @@ export function useSiteSeoHead() {
           rel: 'icon',
           type: 'image/png',
           sizes: '252x243',
-          href: '/favicon.png',
+          href: faviconHref.value,
         },
         {
           rel: 'apple-touch-icon',
-          href: '/favicon.png',
+          href: faviconHref.value,
         },
         {
           rel: 'stylesheet',

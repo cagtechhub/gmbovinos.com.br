@@ -89,10 +89,10 @@
 
   /** Card limpo — borda única, sem ring duplicado. */
   .landing-card {
-    @apply relative rounded-box border border-gray-300/80 bg-white/90 p-6 shadow-[0_1px_2px_rgb(17_24_39_/_0.04)] backdrop-blur-[2px] transition duration-300;
+    @apply relative rounded-box border border-gray-300/70 bg-white/95 p-6 shadow-card backdrop-blur-[2px] transition duration-500 ease-out;
   }
   .landing-card:hover {
-    @apply border-accent-400/50 shadow-[0_12px_32px_-16px_rgb(30_58_138_/_0.28)];
+    @apply -translate-y-1 border-accent-400/50 shadow-soft;
   }
 
   .landing-card--flush {
@@ -175,7 +175,7 @@
   }
 
   .portal-panel {
-    @apply overflow-hidden rounded-box border border-gray-300 bg-white;
+    @apply overflow-hidden rounded-box border border-gray-300/80 bg-white shadow-card;
   }
 
   .portal-panel-header {
@@ -191,7 +191,10 @@
   }
 
   .portal-card {
-    @apply rounded-box border border-gray-300 bg-white p-5;
+    @apply rounded-box border border-gray-300/80 bg-white p-5 shadow-card transition duration-500 ease-out;
+  }
+  .portal-card:hover {
+    @apply -translate-y-0.5 border-accent-400/40 shadow-soft;
   }
 
   .portal-icon {

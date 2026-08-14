@@ -19,6 +19,7 @@ type GalleryRecord = {
   caption: string
   sortOrder: number
   active: boolean
+  featuredHero: boolean
   createdAt: Date
   updatedAt: Date
 }
@@ -34,6 +35,7 @@ const mapGalleryItem = (record: GalleryRecord): GalleryItem =>
     caption: record.caption,
     sortOrder: record.sortOrder,
     active: record.active,
+    featuredHero: record.featuredHero,
     createdAt: record.createdAt,
     updatedAt: record.updatedAt,
   })
@@ -68,6 +70,7 @@ export const makePrismaGalleryRepository = (prisma: PrismaClient): GalleryReposi
             caption: input.caption ?? "",
             sortOrder: input.sortOrder ?? 0,
             active: input.active ?? true,
+            featuredHero: input.featuredHero ?? false,
           },
         }),
       catch: (cause) => new InfraError("Failed to create gallery item", cause),
@@ -75,8 +78,13 @@ export const makePrismaGalleryRepository = (prisma: PrismaClient): GalleryReposi
 
   update: (id, input: UpdateGalleryItemInput) =>
     Effect.tryPromise({
-      try: () =>
-        prisma.galleryItem.update({
+      try: async () => {
+        if (input.featuredHero === true) {
+          await prisma.galleryItem.updateMany({
+            data: { featuredHero: false },
+          })
+        }
+        return prisma.galleryItem.update({
           where: { id },
           data: {
             ...(input.kind !== undefined ? { kind: input.kind } : {}),
@@ -87,8 +95,10 @@ export const makePrismaGalleryRepository = (prisma: PrismaClient): GalleryReposi
             ...(input.caption !== undefined ? { caption: input.caption } : {}),
             ...(input.sortOrder !== undefined ? { sortOrder: input.sortOrder } : {}),
             ...(input.active !== undefined ? { active: input.active } : {}),
+            ...(input.featuredHero !== undefined ? { featuredHero: input.featuredHero } : {}),
           },
-        }),
+        })
+      },
       catch: (cause) => new InfraError("Failed to update gallery item", cause),
     }).pipe(Effect.map(mapGalleryItem)),
 

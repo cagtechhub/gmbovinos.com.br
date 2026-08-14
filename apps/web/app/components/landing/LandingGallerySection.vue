@@ -238,6 +238,7 @@ async function openLightbox(slideIndex: number) {
     return {
       href: it.src,
       type: 'video' as const,
+      source: 'local',
       alt: it.alt,
       description: it.caption,
     }
@@ -248,10 +249,20 @@ async function openLightbox(slideIndex: number) {
     elements,
     touchNavigation: true,
     loop: true,
-    autoplayVideos: false,
-    autofocusVideos: false,
+    autoplayVideos: true,
+    autofocusVideos: true,
     closeOnOutsideClick: true,
     keyboardNavigation: true,
+    plyr: {
+      css: 'https://cdn.plyr.io/3.7.8/plyr.css',
+      js: 'https://cdn.plyr.io/3.7.8/plyr.js',
+      config: {
+        ratio: '16:9',
+        muted: false,
+        hideControls: false,
+        resetOnEnd: true,
+      },
+    },
   })
 
   lb.on('close', () => {
@@ -322,7 +333,7 @@ function countLabel(filter: FilterOption): string {
         <figure
           v-for="item in paginatedItems"
           :key="`${item.type}-${item.src}`"
-          class="group overflow-hidden rounded-media bg-gray-900/5"
+          class="group overflow-hidden rounded-media bg-white shadow-card ring-1 ring-gray-300/60 transition duration-500 hover:-translate-y-1 hover:shadow-soft"
           itemscope
           :itemtype="
             item.type === 'image'
@@ -331,55 +342,63 @@ function countLabel(filter: FilterOption): string {
           "
         >
           <button
+            v-if="item.type === 'image'"
             type="button"
             class="relative block w-full overflow-hidden border-0 bg-gray-100 p-0 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
             :aria-label="`Abrir em tela cheia: ${item.caption}`"
             @click="openLightbox(slideIndexForItem(item))"
           >
             <nuxt-img
-              v-if="item.type === 'image'"
               :src="item.src"
               :alt="item.alt"
-              class="h-60 w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+              class="h-60 w-full object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
               loading="lazy"
               decoding="async"
               width="600"
               height="400"
               itemprop="contentUrl"
             />
-
-            <template v-else>
-              <nuxt-img
-                v-if="item.poster"
-                :src="item.poster"
-                :alt="item.alt"
-                class="h-60 w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-                loading="lazy"
-                decoding="async"
-                width="600"
-                height="400"
-                itemprop="thumbnailUrl"
-              />
-              <div
-                class="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/25 transition group-hover:bg-black/35"
-                aria-hidden="true"
-              >
-                <span
-                  class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-primary-700 shadow-md ring-1 ring-accent-400/50"
-                >
-                  <svg
-                    class="ml-0.5 h-7 w-7"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M8 5v14l11-7L8 5z" />
-                  </svg>
-                </span>
-              </div>
-              <meta itemprop="contentUrl" :content="item.src" />
-            </template>
           </button>
+
+          <div
+            v-else
+            class="relative cursor-pointer overflow-hidden bg-gray-900"
+            role="button"
+            tabindex="0"
+            :aria-label="`Reproduzir vídeo: ${item.caption}`"
+            @click="openLightbox(slideIndexForItem(item))"
+            @keydown.enter.prevent="openLightbox(slideIndexForItem(item))"
+            @keydown.space.prevent="openLightbox(slideIndexForItem(item))"
+          >
+            <video
+              class="h-60 w-full object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+              :src="item.src"
+              :poster="item.poster"
+              :aria-label="item.alt"
+              muted
+              playsinline
+              preload="metadata"
+              controlslist="nodownload"
+              itemprop="contentUrl"
+            />
+            <div
+              class="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/25 transition group-hover:bg-black/35"
+              aria-hidden="true"
+            >
+              <span
+                class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-primary-700 shadow-md ring-1 ring-accent-400/50"
+              >
+                <svg
+                  class="ml-0.5 h-7 w-7"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M8 5v14l11-7L8 5z" />
+                </svg>
+              </span>
+            </div>
+          </div>
 
           <figcaption class="mt-2 text-sm text-gray-600 hidden" itemprop="name">
             {{ item.caption }}

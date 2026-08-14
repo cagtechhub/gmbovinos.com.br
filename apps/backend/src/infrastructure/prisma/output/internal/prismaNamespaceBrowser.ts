@@ -119,6 +119,7 @@ export const SiteSettingsScalarFieldEnum = {
   facebookUrl: 'facebookUrl',
   founderProfileUrl: 'founderProfileUrl',
   defaultOgImageUrl: 'defaultOgImageUrl',
+  faviconUrl: 'faviconUrl',
   ga4MeasurementId: 'ga4MeasurementId',
   metaPixelId: 'metaPixelId',
   mapsEmbedUrl: 'mapsEmbedUrl',
@@ -153,6 +154,7 @@ export const GalleryItemScalarFieldEnum = {
   caption: 'caption',
   sortOrder: 'sortOrder',
   active: 'active',
+  featuredHero: 'featuredHero',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -189,6 +189,18 @@ export const useAdminApi = () => {
       body: form,
     })
 
+  const uploadGalleryItems = (form: FormData) =>
+    request<GalleryItem[]>('/admin/gallery/upload-batch', {
+      method: 'POST',
+      body: form,
+    })
+
+  const uploadBrandAsset = (form: FormData) =>
+    request<SiteSettings>('/admin/settings/upload', {
+      method: 'POST',
+      body: form,
+    })
+
   const reorderGallery = (input: ReorderGalleryInput) =>
     request<GalleryItem[]>('/admin/gallery/reorder', {
       method: 'POST',
@@ -214,6 +226,8 @@ export const useAdminApi = () => {
     updateGalleryItem,
     removeGalleryItem,
     uploadGalleryItem,
+    uploadGalleryItems,
+    uploadBrandAsset,
     reorderGallery,
   }
 }

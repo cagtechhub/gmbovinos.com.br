@@ -49,6 +49,7 @@ export default defineNuxtConfig({
       defaultOgImagePath: '/media/photos/02.webp',
       /** URL da imagem OG (pode vir do CMS; path relativo também atualiza defaultOgImagePath). */
       defaultOgImageUrl: '',
+      faviconUrl: '/favicon.png',
       /** DDI + DDD + número, só dígitos (ex.: 5511999999999). Preferência sobre whatsappPhone. */
       whatsappNumber: '',
       /** @deprecated Use whatsappNumber; mantido para compatibilidade com env antigo. */
@@ -169,6 +170,7 @@ export default defineNuxtConfig({
           "'self'",
           'data:',
           'blob:',
+          'https://cdn.plyr.io',
           'https://*.google-analytics.com',
           'https://*.analytics.google.com',
           'https://*.facebook.com',
@@ -187,6 +189,7 @@ export default defineNuxtConfig({
           'blob:',
           'data:',
           'https://*.supabase.co',
+          'https://cdn.plyr.io',
           'http://127.0.0.1:54321',
         ],
         'connect-src': [
@@ -221,7 +224,7 @@ export default defineNuxtConfig({
           'https://*.googleapis.com',
           'https://*.gstatic.com',
         ],
-        'font-src': ["'self'", 'data:', 'https://fonts.gstatic.com'],
+        'font-src': ["'self'", 'data:', 'https://fonts.gstatic.com', 'https://cdn.plyr.io'],
         'object-src': ["'none'"],
         'base-uri': ["'self'"],
         'form-action': ["'self'"],

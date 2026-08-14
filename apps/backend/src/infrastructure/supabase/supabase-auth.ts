@@ -33,5 +33,6 @@ export const parseAllowedAdminEmails = (): Set<string> | null => {
     .split(",")
     .map((item) => item.trim().toLowerCase())
     .filter(Boolean)
+  console.log("emails", emails)
   return emails.length ? new Set(emails) : null
 }

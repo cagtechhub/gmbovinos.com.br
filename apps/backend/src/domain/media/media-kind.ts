@@ -7,6 +7,9 @@ const IMAGE_TYPES = new Set([
   "image/webp",
   "image/gif",
   "image/avif",
+  "image/svg+xml",
+  "image/x-icon",
+  "image/vnd.microsoft.icon",
 ])
 
 const VIDEO_TYPES = new Set([

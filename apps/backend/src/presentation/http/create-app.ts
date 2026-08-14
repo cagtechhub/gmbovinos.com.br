@@ -17,9 +17,12 @@ import {
   updateLead,
   updateSection,
   updateSiteSettings,
+  uploadBrandAsset,
   uploadGalleryItem,
+  uploadGalleryItems,
 } from "@/application/index"
 import {
+  brandAssetKindSchema,
   contactSchema,
   createContactSchema,
   createGalleryItemSchema,
@@ -309,6 +312,53 @@ export const createApp = (
     })
   })
 
+  app.post("/admin/settings/upload", requireAdmin, (req, res) => {
+    const handleUpload = upload.single("file") as unknown as (
+      req: Request,
+      res: Response,
+      cb: (err?: unknown) => void
+    ) => void
+
+    handleUpload(req, res, (err) => {
+      if (err) {
+        res.status(400).json({ error: "upload_error", message: String(err) })
+        return
+      }
+      const file = (
+        req as Request & {
+          file?: { originalname: string; mimetype: string; buffer: Buffer }
+        }
+      ).file
+      if (!file) {
+        res.status(400).json({
+          error: "validation_error",
+          message: "Arquivo obrigatório (file)",
+        })
+        return
+      }
+      const kindParsed = brandAssetKindSchema.safeParse(req.body?.kind)
+      if (!kindParsed.success) {
+        res.status(400).json({
+          error: "validation_error",
+          message: "kind deve ser favicon ou og",
+        })
+        return
+      }
+      runEffect(
+        runtime,
+        uploadBrandAsset(kindParsed.data, {
+          fileName: file.originalname,
+          contentType: file.mimetype,
+          body: file.buffer,
+        }),
+        res,
+        (item) => {
+          res.json(siteSettingsSchema.parse(item))
+        }
+      )
+    })
+  })
+
   app.get("/admin/sections", requireAdmin, (_req, res) => {
     runEffect(runtime, listSections, res, (items) => {
       res.json(items.map((item) => siteSectionSchema.parse(item)))
@@ -409,6 +459,51 @@ export const createApp = (
         res,
         (item) => {
           res.status(201).json(galleryItemSchema.parse(item))
+        }
+      )
+    })
+  })
+
+  app.post("/admin/gallery/upload-batch", requireAdmin, (req, res) => {
+    const handleUpload = upload.array("files", 40) as unknown as (
+      req: Request,
+      res: Response,
+      cb: (err?: unknown) => void
+    ) => void
+
+    handleUpload(req, res, (err) => {
+      if (err) {
+        res.status(400).json({ error: "upload_error", message: String(err) })
+        return
+      }
+      const files = (
+        req as Request & {
+          files?: Array<{ originalname: string; mimetype: string; buffer: Buffer }>
+        }
+      ).files
+      if (!files?.length) {
+        res.status(400).json({
+          error: "validation_error",
+          message: "Envie um ou mais arquivos no campo files",
+        })
+        return
+      }
+      const caption =
+        typeof req.body?.caption === "string" ? req.body.caption.trim() : undefined
+
+      runEffect(
+        runtime,
+        uploadGalleryItems(
+          files.map((file) => ({
+            fileName: file.originalname,
+            contentType: file.mimetype,
+            body: file.buffer,
+          })),
+          { caption }
+        ),
+        res,
+        (items) => {
+          res.status(201).json(items.map((item) => galleryItemSchema.parse(item)))
         }
       )
     })

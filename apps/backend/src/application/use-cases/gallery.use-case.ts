@@ -1,5 +1,6 @@
 import type {
   CreateGalleryItemInput,
+  GalleryItem,
   UpdateGalleryItemInput,
 } from "@gmbovinos/shared"
 import { Effect } from "effect"
@@ -36,6 +37,12 @@ export const updateGalleryItem = (id: string, input: UpdateGalleryItemInput) =>
     const existing = yield* repo.findById(id)
     if (!existing) {
       return yield* Effect.fail(new InfraError("Gallery item not found"))
+    }
+    if (input.featuredHero === true) {
+      const kind = input.kind ?? existing.kind
+      if (kind !== "IMAGE") {
+        return yield* Effect.fail(new InfraError("Only images can be featured on the hero"))
+      }
     }
     return yield* repo.update(id, input)
   })
@@ -90,5 +97,24 @@ export const uploadGalleryItem = (
       caption: meta.caption ?? "",
       sortOrder: nextOrder,
       active: true,
+      featuredHero: false,
     })
+  })
+
+export const uploadGalleryItems = (
+  files: Array<{ fileName: string; contentType: string; body: Buffer }>,
+  meta: { caption?: string } = {}
+) =>
+  Effect.gen(function* () {
+    const items: GalleryItem[] = []
+    for (const file of files) {
+      const alt = file.fileName.replace(/\.[^.]+$/, "") || file.fileName
+      items.push(
+        yield* uploadGalleryItem(file, {
+          alt,
+          caption: meta.caption,
+        })
+      )
+    }
+    return items
   })

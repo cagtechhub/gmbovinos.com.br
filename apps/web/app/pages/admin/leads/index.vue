@@ -299,7 +299,7 @@ await load()
         <section
           v-for="column in columns"
           :key="column.status"
-          class="flex max-h-[70vh] w-[272px] shrink-0 flex-col rounded-xl border border-gray-300 bg-white transition"
+          class="flex max-h-[70vh] w-[272px] shrink-0 flex-col rounded-xl border border-gray-300/80 bg-white shadow-card transition duration-300"
           :class="dropTarget === column.status ? 'outline outline-2 outline-primary-500' : ''"
           @dragover="onDragOver(column.status, $event)"
           @drop="onDrop(column.status, $event)"
@@ -320,7 +320,7 @@ await load()
               v-for="lead in leadsByStatus[column.status]"
               :key="lead.id"
               draggable="true"
-              class="group cursor-pointer rounded-lg border border-gray-300 bg-white p-3 transition hover:-translate-y-0.5 hover:border-primary-500 active:cursor-grabbing"
+              class="group cursor-pointer rounded-lg border border-gray-300/80 bg-white p-3 shadow-card transition duration-300 hover:-translate-y-0.5 hover:border-accent-400/50 hover:shadow-soft active:cursor-grabbing"
               :class="draggingId === lead.id ? 'rotate-1 opacity-60' : ''"
               @dragstart="onDragStart(lead, $event)"
               @dragend="onDragEnd"

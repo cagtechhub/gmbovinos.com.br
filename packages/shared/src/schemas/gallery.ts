@@ -11,6 +11,7 @@ export const createGalleryItemSchema = z.object({
   caption: z.string().trim().max(500).default(''),
   sortOrder: z.number().int().min(0).default(0),
   active: z.boolean().default(true),
+  featuredHero: z.boolean().default(false),
 })
 
 export const updateGalleryItemSchema = createGalleryItemSchema.partial()

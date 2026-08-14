@@ -13,7 +13,10 @@ const body = computed(
     'Avaliação de lote, alinhamento de preço e acompanhamento da transação — com base técnica em engorda, manejo e sanidade para fechar com mais segurança.'
 )
 const chip = computed(() => payload.value?.chip || 'Negociação técnica · transparência comercial')
-const heroBackgroundImage = computed(() => payload.value?.imageUrl || '/media/photos/02.webp')
+const { heroImageUrl } = useGallery()
+const heroBackgroundImage = computed(
+  () => heroImageUrl.value || payload.value?.imageUrl || '/media/photos/02.webp',
+)
 const ctaPrimaryLabel = computed(() => payload.value?.ctaPrimaryLabel || 'Ver galeria')
 const ctaPrimaryHref = computed(() => payload.value?.ctaPrimaryHref || '#gallery')
 const ctaSecondaryLabel = computed(() => payload.value?.ctaSecondaryLabel || 'Como funciona')
@@ -42,7 +45,7 @@ const heroImageOverlayGradients = [
     />
 
     <div
-      class="pointer-events-none absolute inset-0"
+      class="pointer-events-none absolute inset-0 top-0"
       :style="{ backgroundImage: heroImageOverlayGradients }"
       aria-hidden="true"
     />

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { GalleryItem } from '@gmbovinos/shared'
+import { Images, Star, Upload } from 'lucide-vue-next'
 
 definePageMeta({
   layout: 'admin',
@@ -12,11 +13,13 @@ const error = ref('')
 const success = ref('')
 const loading = ref(true)
 const uploading = ref(false)
+const uploadProgress = ref('')
 const savingId = ref<string | null>(null)
+const dragging = ref(false)
 
-const uploadFile = ref<File | null>(null)
-const uploadAlt = ref('')
+const uploadFiles = ref<File[]>([])
 const uploadCaption = ref('')
+const fileInput = ref<HTMLInputElement | null>(null)
 
 const drafts = reactive<Record<string, { alt: string; caption: string }>>({})
 
@@ -42,37 +45,55 @@ const load = async () => {
   }
 }
 
+const addFiles = (list: FileList | File[]) => {
+  const next = Array.from(list).filter(
+    (file) => file.type.startsWith('image/') || file.type.startsWith('video/'),
+  )
+  uploadFiles.value = [...uploadFiles.value, ...next]
+}
+
 const onFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement
-  uploadFile.value = input.files?.[0] ?? null
-  if (uploadFile.value && !uploadAlt.value.trim()) {
-    uploadAlt.value = uploadFile.value.name.replace(/\.[^.]+$/, '')
-  }
+  if (input.files?.length) addFiles(input.files)
+  input.value = ''
+}
+
+const onDrop = (event: DragEvent) => {
+  dragging.value = false
+  const list = event.dataTransfer?.files
+  if (list?.length) addFiles(list)
 }
 
 const onUpload = async () => {
-  if (!uploadFile.value) {
-    error.value = 'Selecione um arquivo.'
+  if (!uploadFiles.value.length) {
+    error.value = 'Selecione um ou mais arquivos.'
     return
   }
   uploading.value = true
   error.value = ''
   success.value = ''
+  const total = uploadFiles.value.length
+  let done = 0
   try {
-    const form = new FormData()
-    form.append('file', uploadFile.value)
-    form.append('alt', uploadAlt.value.trim() || uploadFile.value.name)
-    if (uploadCaption.value.trim()) form.append('caption', uploadCaption.value.trim())
-    await api.uploadGalleryItem(form)
-    uploadFile.value = null
-    uploadAlt.value = ''
+    const chunkSize = 8
+    for (let i = 0; i < uploadFiles.value.length; i += chunkSize) {
+      const chunk = uploadFiles.value.slice(i, i + chunkSize)
+      const form = new FormData()
+      for (const file of chunk) form.append('files', file)
+      if (uploadCaption.value.trim()) form.append('caption', uploadCaption.value.trim())
+      await api.uploadGalleryItems(form)
+      done += chunk.length
+      uploadProgress.value = `${done} de ${total}`
+    }
+    uploadFiles.value = []
     uploadCaption.value = ''
-    success.value = 'Arquivo enviado.'
+    success.value = total === 1 ? 'Arquivo enviado.' : `${total} arquivos enviados.`
     await load()
   } catch {
-    error.value = 'Falha no upload.'
+    error.value = 'Falha no upload em massa.'
   } finally {
     uploading.value = false
+    uploadProgress.value = ''
   }
 }
 
@@ -85,6 +106,27 @@ const onToggleActive = async (item: GalleryItem) => {
     if (idx >= 0) items.value[idx] = updated
   } catch {
     error.value = 'Não foi possível atualizar o status.'
+  } finally {
+    savingId.value = null
+  }
+}
+
+const onToggleHero = async (item: GalleryItem) => {
+  if (item.kind !== 'IMAGE') {
+    error.value = 'Só imagens podem ser destacadas no hero.'
+    return
+  }
+  savingId.value = item.id
+  error.value = ''
+  success.value = ''
+  try {
+    const updated = await api.updateGalleryItem(item.id, { featuredHero: !item.featuredHero })
+    items.value = items.value.map((row) =>
+      row.id === updated.id ? updated : { ...row, featuredHero: false },
+    )
+    success.value = updated.featuredHero ? 'Imagem definida no hero.' : 'Destaque do hero removido.'
+  } catch {
+    error.value = 'Não foi possível destacar a imagem no hero.'
   } finally {
     savingId.value = null
   }
@@ -154,48 +196,65 @@ await load()
         <p class="admin-eyebrow">Mídia</p>
         <h2 class="portal-page-title">Galeria</h2>
         <p class="portal-page-desc">
-          Upload, edição de alt/caption, ativar/desativar e reordenar itens.
+          Upload em massa, destaque da imagem do hero, edição de alt/caption e reordenação.
         </p>
       </div>
     </header>
 
-    <form
-      class="space-y-4 rounded-xl border border-gray-300 bg-white p-5"
-      @submit.prevent="onUpload"
-    >
-      <h3 class="text-lg font-semibold text-gray-900">Novo upload</h3>
-      <div class="grid gap-4 sm:grid-cols-2">
-        <label class="block text-sm text-gray-600 sm:col-span-2">
-          Arquivo
-          <input
-            type="file"
-            accept="image/*,video/*"
-            class="mt-1 block w-full text-sm"
-            @change="onFileChange"
-          />
-        </label>
-        <label class="block text-sm text-gray-600">
-          Alt
-          <input
-            v-model="uploadAlt"
-            required
-            class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
-          />
-        </label>
-        <label class="block text-sm text-gray-600">
-          Caption
-          <input
-            v-model="uploadCaption"
-            class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
-          />
-        </label>
+    <form class="portal-card space-y-4 hover:translate-y-0" @submit.prevent="onUpload">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900">Upload em massa</h3>
+          <p class="mt-1 text-sm text-gray-600">Arraste várias imagens ou vídeos, ou selecione no computador.</p>
+        </div>
+        <span class="portal-icon">
+          <Images class="size-4" aria-hidden="true" />
+        </span>
       </div>
-      <button
-        type="submit"
-        class="rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-60"
-        :disabled="uploading"
+
+      <div
+        class="rounded-box border-2 border-dashed px-4 py-10 text-center transition duration-300"
+        :class="
+          dragging
+            ? 'border-accent-400 bg-accent-400/10'
+            : 'border-gray-300 bg-gray-100/60 hover:border-accent-400/60'
+        "
+        @dragenter.prevent="dragging = true"
+        @dragover.prevent="dragging = true"
+        @dragleave.prevent="dragging = false"
+        @drop.prevent="onDrop"
       >
-        {{ uploading ? 'Enviando…' : 'Enviar' }}
+        <Upload class="mx-auto size-8 text-primary-700" aria-hidden="true" />
+        <p class="mt-3 text-sm font-medium text-gray-900">Solte os arquivos aqui</p>
+        <p class="mt-1 text-xs text-gray-600">PNG, JPG, WebP, MP4 e outros formatos de mídia</p>
+        <button type="button" class="btn-secondary focus-ring mt-4" @click="fileInput?.click()">
+          Escolher arquivos
+        </button>
+        <input
+          ref="fileInput"
+          type="file"
+          accept="image/*,video/*"
+          multiple
+          class="hidden"
+          @change="onFileChange"
+        />
+      </div>
+
+      <p v-if="uploadFiles.length" class="text-sm text-gray-600">
+        {{ uploadFiles.length }} arquivo{{ uploadFiles.length === 1 ? '' : 's' }} na fila:
+        {{ uploadFiles.map((file) => file.name).join(', ') }}
+      </p>
+
+      <label class="block text-sm text-gray-600">
+        Caption opcional (aplicada a este lote)
+        <input
+          v-model="uploadCaption"
+          class="focus-ring mt-1 w-full rounded-control border border-gray-300 px-3 py-2"
+        />
+      </label>
+
+      <button type="submit" class="btn-primary focus-ring" :disabled="uploading">
+        {{ uploading ? `Enviando… ${uploadProgress}` : 'Enviar arquivos' }}
       </button>
     </form>
 
@@ -203,16 +262,14 @@ await load()
     <p v-if="success" class="text-sm text-emerald-700">{{ success }}</p>
     <p v-if="loading" class="text-sm text-gray-600">Carregando…</p>
 
-    <ul v-else class="space-y-3">
+    <ul v-else class="grid gap-4 lg:grid-cols-2">
       <li
         v-for="(item, index) in items"
         :key="item.id"
-        class="rounded-xl border border-gray-300 bg-white p-4"
+        class="portal-card hover:translate-y-0"
       >
-        <div class="flex flex-col gap-4 lg:flex-row">
-          <div
-            class="h-28 w-full shrink-0 overflow-hidden rounded-lg border border-gray-300 bg-gray-100 lg:w-40"
-          >
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <div class="h-36 w-full shrink-0 overflow-hidden rounded-control bg-gray-100 shadow-card sm:w-44">
             <img
               v-if="item.kind === 'IMAGE'"
               :src="item.url"
@@ -231,28 +288,33 @@ await load()
             <div class="flex flex-wrap items-center gap-2">
               <span
                 class="rounded-md px-2 py-0.5 text-[11px] font-bold uppercase"
-                :class="
-                  item.active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-600'
-                "
+                :class="item.active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-600'"
               >
                 {{ item.active ? 'Ativo' : 'Inativo' }}
+              </span>
+              <span
+                v-if="item.featuredHero"
+                class="inline-flex items-center gap-1 rounded-md bg-accent-400/20 px-2 py-0.5 text-[11px] font-bold uppercase text-accent-700"
+              >
+                <Star class="size-3" aria-hidden="true" />
+                Hero
               </span>
               <span class="text-xs text-gray-600">ordem {{ item.sortOrder }}</span>
             </div>
 
-            <div v-if="drafts[item.id]" class="grid gap-3 sm:grid-cols-2">
+            <div v-if="drafts[item.id]" class="grid gap-3">
               <label class="block text-sm text-gray-600">
                 Alt
                 <input
                   v-model="drafts[item.id]!.alt"
-                  class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+                  class="focus-ring mt-1 w-full rounded-control border border-gray-300 px-3 py-2"
                 />
               </label>
               <label class="block text-sm text-gray-600">
                 Caption
                 <input
                   v-model="drafts[item.id]!.caption"
-                  class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+                  class="focus-ring mt-1 w-full rounded-control border border-gray-300 px-3 py-2"
                 />
               </label>
             </div>
@@ -260,23 +322,31 @@ await load()
             <div class="flex flex-wrap gap-2">
               <button
                 type="button"
-                class="rounded-lg border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-100 disabled:opacity-40"
+                class="btn-secondary focus-ring px-3 py-1.5 text-sm"
                 :disabled="index === 0"
                 @click="move(index, -1)"
               >
-                ↑ Subir
+                ↑
               </button>
               <button
                 type="button"
-                class="rounded-lg border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-100 disabled:opacity-40"
+                class="btn-secondary focus-ring px-3 py-1.5 text-sm"
                 :disabled="index === items.length - 1"
                 @click="move(index, 1)"
               >
-                ↓ Descer
+                ↓
               </button>
               <button
                 type="button"
-                class="rounded-lg border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-100"
+                class="btn-secondary focus-ring px-3 py-1.5 text-sm"
+                :disabled="savingId === item.id || item.kind !== 'IMAGE'"
+                @click="onToggleHero(item)"
+              >
+                {{ item.featuredHero ? 'Remover do hero' : 'Usar no hero' }}
+              </button>
+              <button
+                type="button"
+                class="btn-secondary focus-ring px-3 py-1.5 text-sm"
                 :disabled="savingId === item.id"
                 @click="onToggleActive(item)"
               >
@@ -284,7 +354,7 @@ await load()
               </button>
               <button
                 type="button"
-                class="rounded-lg bg-primary-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-60"
+                class="btn-primary focus-ring px-3 py-1.5 text-sm"
                 :disabled="savingId === item.id"
                 @click="onSaveMeta(item)"
               >
@@ -292,7 +362,7 @@ await load()
               </button>
               <button
                 type="button"
-                class="rounded-lg border border-red-300 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50"
+                class="rounded-control border border-red-300 px-3 py-1.5 text-sm text-red-600 transition hover:bg-red-50"
                 :disabled="savingId === item.id"
                 @click="onDelete(item)"
               >
@@ -304,7 +374,7 @@ await load()
       </li>
       <li
         v-if="!items.length"
-        class="rounded-xl border border-gray-300 bg-white px-5 py-8 text-center text-sm text-gray-600"
+        class="portal-card px-5 py-8 text-center text-sm text-gray-600 hover:translate-y-0 lg:col-span-2"
       >
         Nenhum item na galeria.
       </li>
