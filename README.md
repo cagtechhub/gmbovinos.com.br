@@ -35,7 +35,8 @@ Na OS Up2tech: Traefik na rede bridge `web`, Postgres do **Supabase** (sem servi
 
 Pré-requisitos:
 
-1. DNS de `DOMAIN` e `API_DOMAIN` apontando para a VPS
+1. DNS de `DOMAIN`, `www.${DOMAIN}` e `API_DOMAIN` apontando para a VPS
+   (registros A/AAAA iguais para apex e `www`; o Traefik redireciona `www` → apex)
 2. `docker network create web` (se ainda não existir)
 3. `.env` **só na VPS** (copie de `.env.example`, valores `https://` reais)
 4. `yarn db:migrate` (ou `yarn db:push`) **uma vez** contra o Supabase
@@ -51,6 +52,7 @@ chmod +x ./deploy.sh
 | Item | Valor |
 | ---- | ----- |
 | Site | `https://${DOMAIN}` (container `gmbovinos-web`) |
+| Alias www | `https://www.${DOMAIN}` → 301 para o apex |
 | API | `https://${API_DOMAIN}` (container `gmbovinos-backend`) |
 | SSR → API | `NUXT_API_BASE=http://gmbovinos-backend:3001` |
 | Browser → API | `NUXT_PUBLIC_API_BASE=https://${API_DOMAIN}` |

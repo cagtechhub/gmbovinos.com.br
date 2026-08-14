@@ -78,10 +78,16 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK:-web}
-      - traefik.http.routers.gmbovinos-web.rule=Host(`${DOMAIN}`)
+      - traefik.http.middlewares.gmbovinos-www.redirectregex.regex=^https://www\.(.+)
+      - traefik.http.middlewares.gmbovinos-www.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.gmbovinos-www.redirectregex.permanent=true
+      - traefik.http.routers.gmbovinos-web.rule=Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`)
       - traefik.http.routers.gmbovinos-web.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
       - traefik.http.routers.gmbovinos-web.tls=true
       - traefik.http.routers.gmbovinos-web.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.routers.gmbovinos-web.tls.domains.0.main=${DOMAIN}
+      - traefik.http.routers.gmbovinos-web.tls.domains.0.sans=www.${DOMAIN}
+      - traefik.http.routers.gmbovinos-web.middlewares=gmbovinos-www
       - traefik.http.services.gmbovinos-web.loadbalancer.server.port=3000
 
 networks:
