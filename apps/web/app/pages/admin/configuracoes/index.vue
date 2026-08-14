@@ -84,13 +84,14 @@ await load()
 </script>
 
 <template>
-  <div class="mx-auto max-w-3xl space-y-6">
-    <div>
-      <h2 class="text-3xl font-semibold text-gray-900">Configurações do site</h2>
-      <p class="mt-1 text-sm text-gray-600">
-        SEO, contato, redes, mapa e analytics — usados no site público.
-      </p>
-    </div>
+  <div class="mx-auto max-w-3xl portal-stack">
+    <header class="portal-page-header">
+      <div>
+        <p class="admin-eyebrow">Site</p>
+        <h2 class="portal-page-title">Configurações</h2>
+        <p class="portal-page-desc">SEO, contato, redes, mapa e analytics — usados no site público.</p>
+      </div>
+    </header>
 
     <p v-if="loading" class="text-sm text-gray-600">Carregando…</p>
 

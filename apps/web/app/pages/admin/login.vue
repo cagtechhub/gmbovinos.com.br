@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { ArrowLeft, ArrowRight, LockKeyhole, ShieldCheck } from 'lucide-vue-next'
+
 definePageMeta({
   layout: false,
+})
+
+useHead({
+  meta: [{ name: 'robots', content: 'noindex, nofollow' }],
 })
 
 const { login, isAuthenticated } = useAdminApi()
@@ -33,42 +39,85 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-primary-700 px-5">
-    <form
-      class="w-full max-w-md rounded-2xl border border-white/15 bg-primary-700/80 p-8 shadow-2xl ring-1 ring-accent-500/30"
-      @submit.prevent="onSubmit"
-    >
-      <p class="text-xs uppercase tracking-[0.22em] text-accent-400">Acesso restrito</p>
-      <h1 class="mt-2 text-3xl font-semibold text-white">GM Bovinos Admin</h1>
-      <p class="mt-2 text-sm text-white/65">Entre com a conta Supabase Auth do painel.</p>
-      <label class="mt-6 block text-sm text-white/85">
-        E-mail
-        <input
-          v-model="email"
-          type="email"
-          required
-          class="mt-2 w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-white outline-none focus:border-accent-400"
-          autocomplete="username"
-        />
-      </label>
-      <label class="mt-4 block text-sm text-white/85">
-        Senha
-        <input
-          v-model="password"
-          type="password"
-          required
-          class="mt-2 w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-white outline-none focus:border-accent-400"
-          autocomplete="current-password"
-        />
-      </label>
-      <p v-if="error" class="mt-3 text-sm text-red-300">{{ error }}</p>
-      <button
-        type="submit"
-        class="mt-6 w-full rounded-xl bg-accent-500 px-4 py-3 text-sm font-semibold text-white hover:bg-accent-400 disabled:opacity-60"
-        :disabled="loading"
-      >
-        {{ loading ? 'Entrando…' : 'Entrar' }}
-      </button>
-    </form>
+  <div class="min-h-screen bg-gray-100">
+    <header class="border-b border-primary-700 bg-primary-700 text-white">
+      <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 sm:h-16">
+        <NuxtLink
+          to="/"
+          class="focus-ring inline-flex items-center gap-2 rounded-control text-sm text-white/75 transition hover:text-white"
+        >
+          <ArrowLeft class="size-4" aria-hidden="true" />
+          Voltar para o site
+        </NuxtLink>
+        <p class="text-sm font-medium text-white/80">Painel admin</p>
+      </div>
+    </header>
+
+    <section class="mx-auto grid max-w-7xl gap-8 px-5 py-10 md:grid-cols-2 md:items-start md:py-14">
+      <aside class="rounded-box border border-gray-300 bg-white p-6 sm:p-8">
+        <div class="flex items-center gap-3">
+          <span class="portal-icon">
+            <ShieldCheck class="size-5" aria-hidden="true" />
+          </span>
+          <div>
+            <p class="font-semibold text-gray-900">GM Bovinos Admin</p>
+            <p class="text-xs text-gray-600">Gestão do site, galeria e leads</p>
+          </div>
+        </div>
+        <ul class="mt-8 space-y-4 text-sm text-gray-600">
+          <li>Seções da landing e conteúdo institucional.</li>
+          <li>Galeria de fotos e vídeos da operação.</li>
+          <li>Pipeline de leads capturados pelo site.</li>
+          <li>Acesso restrito às contas autorizadas no Supabase.</li>
+        </ul>
+      </aside>
+
+      <div class="rounded-box border border-gray-300 bg-white p-6 sm:p-8">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="admin-eyebrow">Área restrita</p>
+            <h1 class="mt-2 text-2xl font-semibold tracking-tight text-gray-900">Bem-vindo de volta</h1>
+            <p class="mt-2 max-w-md text-sm leading-relaxed text-gray-600">
+              Entre com a conta autorizada para gerenciar o painel.
+            </p>
+          </div>
+          <span class="hidden size-10 shrink-0 place-items-center rounded-full bg-primary-500/10 text-primary-700 sm:grid">
+            <LockKeyhole class="size-5" aria-hidden="true" />
+          </span>
+        </div>
+
+        <form class="mt-7 grid gap-4" @submit.prevent="onSubmit">
+          <label class="text-sm font-medium text-gray-900" for="admin-email">
+            E-mail
+            <input
+              id="admin-email"
+              v-model="email"
+              type="email"
+              required
+              autocomplete="username"
+              class="focus-ring mt-1.5 w-full rounded-control border border-gray-300 px-3 py-2.5 font-normal"
+              placeholder="voce@gmbovinos.com.br"
+            />
+          </label>
+          <label class="text-sm font-medium text-gray-900" for="admin-password">
+            Senha
+            <input
+              id="admin-password"
+              v-model="password"
+              type="password"
+              required
+              autocomplete="current-password"
+              class="focus-ring mt-1.5 w-full rounded-control border border-gray-300 px-3 py-2.5 font-normal"
+              placeholder="••••••••"
+            />
+          </label>
+          <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
+          <button type="submit" class="btn-primary focus-ring" :disabled="loading">
+            {{ loading ? 'Entrando…' : 'Acessar painel' }}
+            <ArrowRight class="ml-2 size-4" aria-hidden="true" />
+          </button>
+        </form>
+      </div>
+    </section>
   </div>
 </template>

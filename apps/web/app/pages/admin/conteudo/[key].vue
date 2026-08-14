@@ -163,18 +163,16 @@ await load()
 </script>
 
 <template>
-  <div class="mx-auto max-w-3xl space-y-6">
-    <div class="flex flex-wrap items-end justify-between gap-3">
+  <div class="mx-auto max-w-3xl portal-stack">
+    <header class="portal-page-header">
       <div>
-        <NuxtLink to="/admin/conteudo" class="text-sm text-primary-500 hover:underline">
+        <NuxtLink to="/admin/conteudo" class="text-sm font-medium text-primary-500 hover:underline">
           ← Voltar
         </NuxtLink>
-        <h2 class="mt-2 text-3xl font-semibold text-gray-900">
-          {{ sectionLabel[sectionKey] || sectionKey }}
-        </h2>
-        <p class="mt-1 text-sm text-gray-600">Campos comuns + JSON avançado do payload.</p>
+        <h2 class="portal-page-title">{{ sectionLabel[sectionKey] || sectionKey }}</h2>
+        <p class="portal-page-desc">Campos comuns + JSON avançado do payload.</p>
       </div>
-    </div>
+    </header>
 
     <p v-if="loading" class="text-sm text-gray-600">Carregando…</p>
 

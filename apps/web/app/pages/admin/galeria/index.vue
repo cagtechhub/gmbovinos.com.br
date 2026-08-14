@@ -148,13 +148,16 @@ await load()
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div>
-      <h2 class="text-3xl font-semibold text-gray-900">Galeria</h2>
-      <p class="mt-1 text-sm text-gray-600">
-        Upload, edição de alt/caption, ativar/desativar e reordenar itens.
-      </p>
-    </div>
+  <div class="portal-stack">
+    <header class="portal-page-header">
+      <div>
+        <p class="admin-eyebrow">Mídia</p>
+        <h2 class="portal-page-title">Galeria</h2>
+        <p class="portal-page-desc">
+          Upload, edição de alt/caption, ativar/desativar e reordenar itens.
+        </p>
+      </div>
+    </header>
 
     <form
       class="space-y-4 rounded-xl border border-gray-300 bg-white p-5"

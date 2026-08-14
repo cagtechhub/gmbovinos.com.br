@@ -91,13 +91,16 @@ await load()
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div>
-      <h2 class="text-3xl font-semibold text-gray-900">Conteúdo</h2>
-      <p class="mt-1 text-sm text-gray-600">
-        Seções da landing — clique para editar título e payload JSON, ou abra o editor avançado.
-      </p>
-    </div>
+  <div class="portal-stack">
+    <header class="portal-page-header">
+      <div>
+        <p class="admin-eyebrow">CMS</p>
+        <h2 class="portal-page-title">Conteúdo</h2>
+        <p class="portal-page-desc">
+          Seções da landing — clique para editar título e payload JSON, ou abra o editor avançado.
+        </p>
+      </div>
+    </header>
 
     <p v-if="loading" class="text-sm text-gray-600">Carregando…</p>
     <p v-else-if="error" class="text-sm text-red-600">{{ error }}</p>

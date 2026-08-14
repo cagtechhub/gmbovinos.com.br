@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { AdminDashboardStats } from '~/composables/useAdminApi'
+import { FileText, FolderKanban, Images, RefreshCw } from 'lucide-vue-next'
 
 definePageMeta({
   layout: 'admin',
@@ -17,10 +18,34 @@ const stats = ref<AdminDashboardStats>({
 })
 
 const cards = computed(() => [
-  { label: 'Leads novos', value: stats.value.leadsNew },
-  { label: 'Leads totais', value: stats.value.leadsTotal },
-  { label: 'Itens na galeria', value: stats.value.galleryCount },
-  { label: 'Seções de conteúdo', value: stats.value.sectionsCount },
+  {
+    label: 'Leads novos',
+    value: stats.value.leadsNew,
+    helper: 'Aguardando primeiro contato',
+    icon: FolderKanban,
+    to: '/admin/leads',
+  },
+  {
+    label: 'Leads totais',
+    value: stats.value.leadsTotal,
+    helper: 'Todos os canais',
+    icon: FolderKanban,
+    to: '/admin/leads',
+  },
+  {
+    label: 'Itens na galeria',
+    value: stats.value.galleryCount,
+    helper: 'Fotos e vídeos',
+    icon: Images,
+    to: '/admin/galeria',
+  },
+  {
+    label: 'Seções de conteúdo',
+    value: stats.value.sectionsCount,
+    helper: 'Blocos da landing',
+    icon: FileText,
+    to: '/admin/conteudo',
+  },
 ])
 
 const loadDashboard = async () => {
@@ -57,53 +82,35 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div>
-      <h2 class="text-3xl font-semibold text-gray-900">Visão geral</h2>
-      <p class="mt-1 text-sm text-gray-600">Resumo do conteúdo, galeria e leads captados.</p>
-    </div>
+  <div class="portal-stack">
+    <header class="portal-page-header">
+      <div>
+        <p class="admin-eyebrow">Painel</p>
+        <h2 class="portal-page-title">Visão geral</h2>
+        <p class="portal-page-desc">Resumo do conteúdo, galeria e leads captados.</p>
+      </div>
+      <button type="button" class="btn-secondary focus-ring" @click="loadDashboard">
+        <RefreshCw class="mr-2 size-4" aria-hidden="true" />
+        Atualizar
+      </button>
+    </header>
 
     <p v-if="loading" class="text-sm text-gray-600">Carregando…</p>
     <div v-else-if="error" class="space-y-3">
       <p class="text-sm text-red-600">{{ error }}</p>
-      <button
-        type="button"
-        class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-100"
-        @click="loadDashboard"
-      >
-        Tentar novamente
-      </button>
+      <button type="button" class="btn-secondary focus-ring" @click="loadDashboard">Tentar novamente</button>
     </div>
 
-    <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <div
-        v-for="card in cards"
-        :key="card.label"
-        class="rounded-xl border border-gray-300 bg-white p-5"
-      >
-        <p class="text-xs uppercase tracking-wider text-gray-600">{{ card.label }}</p>
-        <p class="mt-2 text-3xl font-semibold text-primary-700">{{ card.value }}</p>
-      </div>
-    </div>
-
-    <div class="flex flex-wrap gap-3">
-      <NuxtLink
-        to="/admin/leads"
-        class="rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-700"
-      >
-        Ver leads
-      </NuxtLink>
-      <NuxtLink
-        to="/admin/conteudo"
-        class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100"
-      >
-        Editar conteúdo
-      </NuxtLink>
-      <NuxtLink
-        to="/admin/galeria"
-        class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100"
-      >
-        Gerenciar galeria
+    <div v-else class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <NuxtLink v-for="card in cards" :key="card.label" :to="card.to" class="portal-card transition hover:border-accent-400/50">
+        <div class="flex items-start justify-between gap-3">
+          <p class="text-sm text-gray-600">{{ card.label }}</p>
+          <span class="portal-icon">
+            <component :is="card.icon" class="size-4" aria-hidden="true" />
+          </span>
+        </div>
+        <p class="mt-5 text-2xl font-semibold tabular-nums text-primary-700">{{ card.value }}</p>
+        <p class="mt-1 text-xs text-gray-600">{{ card.helper }}</p>
       </NuxtLink>
     </div>
   </div>

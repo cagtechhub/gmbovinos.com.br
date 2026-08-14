@@ -281,22 +281,15 @@ await load()
 </script>
 
 <template>
-  <div class="space-y-5">
-    <div class="flex flex-wrap items-end justify-between gap-4">
+  <div class="portal-stack">
+    <header class="portal-page-header">
       <div>
-        <h2 class="text-3xl font-semibold text-gray-900">Leads</h2>
-        <p class="mt-1 text-sm text-gray-600">
-          Quadro estilo pipeline — arraste os cartões entre as listas.
-        </p>
+        <p class="admin-eyebrow">Pipeline</p>
+        <h2 class="portal-page-title">Leads</h2>
+        <p class="portal-page-desc">Quadro estilo pipeline — arraste os cartões entre as listas.</p>
       </div>
-      <button
-        type="button"
-        class="rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-700"
-        @click="openCreate('NEW')"
-      >
-        Novo lead
-      </button>
-    </div>
+      <button type="button" class="btn-primary focus-ring" @click="openCreate('NEW')">Novo lead</button>
+    </header>
 
     <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
     <p v-else-if="loading" class="text-sm text-gray-600">Carregando…</p>
