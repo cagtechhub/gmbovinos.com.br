@@ -1,0 +1,29 @@
+---
+description: Design system GM Bovinos (DESIGN.md) — paleta light/dark, tipografia, tokens, componentes, motion e acessibilidade. Use em qualquer trabalho visual/redesign da landing ou admin.
+globs: apps/web/app/**/*.vue,apps/web/app/assets/**/*.css,apps/web/tailwind.config.ts,DESIGN.md
+alwaysApply: false
+---
+
+# Design system — fonte: `DESIGN.md`
+
+| Tarefa                          | Seção de `DESIGN.md`     |
+| ------------------------------- | ------------------------ |
+| Tom, copy, posicionamento       | Overview (Varginha-MG)   |
+| Cores (light padrão / dark)     | Colors                   |
+| Fontes                          | Typography               |
+| Grid, espaçamento               | Layout                   |
+| Sombras, camadas, fotos         | Elevation & Depth        |
+| Raios, fios, formas             | Shapes                   |
+| Header, hero, cards, form…      | Components               |
+| O que evitar                    | Do's and Don'ts          |
+| Animações                       | Motion                   |
+| A11y                            | Acessibilidade           |
+| Ordem das seções da home        | Estrutura da página      |
+
+## Regras
+- Usar tokens via `tailwind.config.ts` — sem hex solto em componentes.
+- Token novo/alterado → atualizar `DESIGN.md` (front matter + seção) e `tailwind.config.ts` na mesma entrega.
+- Preservar o logo (`apps/web/public/img/logo.png`, escudo azul com cabeça de boi e globo) e o azul de marca.
+- Manter âncoras (`#hero`, `#como-funciona`, `#atuacao`, `#sobre-servico`, `#gallery`, `#sobre-nos`, `#cta`).
+- `brand` (teal) é exclusivo do WhatsApp.
+- Respeitar `prefers-reduced-motion` e contraste AA. Prompts do Stitch são referência, não código.

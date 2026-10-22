@@ -1,0 +1,19 @@
+---
+description: Frontend Vue 3 / Nuxt 4 (apps/web) — composables, Pinia, nuxt-security, Nitro. Use ao editar páginas, componentes, stores ou server/ do web.
+globs: apps/web/**/*.{vue,ts}
+alwaysApply: false
+---
+
+# Frontend — Nuxt 4 / Vue 3
+
+Papel: `.ai/agents/frontend-engineer.md`. Padrões: `.ai/standards/frontend/coding.md`. Stacks: `.ai/stacks/{nuxt4,vue3,pinia,tailwind}.md`.
+Visual: **`DESIGN.md`** (rule `design-system`). Estrutura: `docs/architecture.md`.
+
+- `<script setup lang="ts">`, Composition API, auto-imports (`srcDir: app/`).
+- Seções em `components/landing/Landing*.vue`; UI genérica em `components/ui/`; páginas finas.
+- Lógica reutilizável em `composables/`; estado global em Pinia; âncoras em `constants/landingNavLinks.ts`.
+- Conteúdo via `useSiteSections`/`useGallery`/`site-settings` com **fallback local** preservado; admin via `useAdminApi` (Bearer).
+- Tipos de payload de `@gmbovinos/shared`.
+- Respeitar `nuxt-security` (CSP); nada sensível em `NUXT_PUBLIC_*`.
+- Nitro (`server/`): validar input; `useRuntimeConfig(event)`.
+- Entrega: mobile-first, semântica/a11y (headings, `alt`, labels/aria), `yarn lint` sem warnings nos arquivos alterados.

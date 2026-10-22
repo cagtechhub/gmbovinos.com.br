@@ -1,0 +1,11 @@
+---
+description: Contratos compartilhados (@gmbovinos/shared) — schemas Zod usados por web e backend.
+globs: packages/shared/src/**/*.ts
+alwaysApply: false
+---
+
+# Shared — contratos Zod
+
+- Fonte única de payloads web↔API: `contact`, `lead`, `settings`, `section`, `gallery`, `health` (reexportar em `src/index.ts`).
+- Mudança aqui é mudança de contrato: `rg` pelo símbolo em `apps/backend` e `apps/web` e ajustar ambos na mesma entrega; breaking → `.ai/agents/impact-analyst.md`.
+- Sem dependências além de `zod`. Não editar `dist/` (gerado). Validar: `yarn workspace @gmbovinos/shared build`.

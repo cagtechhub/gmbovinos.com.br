@@ -1,0 +1,14 @@
+---
+description: SEO técnico e semântico da landing (head, JSON-LD, robots, sitemap, scripts de marketing pós-consentimento).
+globs: apps/web/app/composables/useSiteSeo*.ts,apps/web/server/routes/**,apps/web/app/plugins/02.marketing-scripts.client.ts,apps/web/public/llms*.txt,apps/web/public/ai.txt
+alwaysApply: false
+---
+
+# SEO — GM Bovinos
+
+- Localidade do negócio: Varginha-MG (fazenda); usar consistentemente em copy, schema e meta.
+- JSON-LD centralizado em `useSiteSeoHead` via `@unhead/schema-org` (LocalBusiness/Organization); não duplicar com microdados.
+- Só emitir propriedades schema com dados reais (settings); nada vazio.
+- Manter canonical absoluto, OG + Twitter, `robots` por ambiente (`NUXT_PUBLIC_NO_INDEX`), `robots.txt` e `sitemap.xml` válidos.
+- GA4/Meta só após consentimento (`useConsentStore`).
+- Head tags, schema e conteúdo visível consistentes. Validar com `yarn build` + inspeção do HTML SSR.

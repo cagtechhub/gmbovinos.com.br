@@ -1,0 +1,17 @@
+---
+description: Núcleo do GM Bovinos — roteamento AGENTS.md, protocolo anti-alucinação e limites (sem commit/deploy/env).
+globs:
+alwaysApply: true
+---
+
+# GM Bovinos — Núcleo
+
+Roteamento: `AGENTS.md` → abrir só o doc de `docs/` (ou `DESIGN.md`) da tarefa. Protocolo: `docs/ai.md`. Responder em pt-BR.
+
+- Monorepo Yarn: `apps/web` (Nuxt 4), `apps/backend` (Express + Effect + Prisma 7), `packages/shared` (Zod).
+- Não inventar requisitos, rotas, campos, copy, dados de negócio ou tokens.
+- Prettier: sem `;`, aspas simples, 100 col, trailing comma es5.
+- Schema só via migrations Prisma. Nunca ler `.env*`/`gha_deploy*`. Sem commit/push/migrate/deploy sem autorização.
+- Validar com `yarn lint` + `yarn format:check` (e `yarn build` quando couber) antes de declarar pronto.
+
+Princípios compartilhados (sob demanda): `.ai/standards/general/principles.md`, `.ai/architecture/karpathy.md`.

@@ -1,0 +1,17 @@
+---
+description: Backend Express + Effect + Prisma (apps/backend) — rotas públicas/admin, auth Supabase, use-cases/ports/adapters, validação Zod via @gmbovinos/shared.
+globs: apps/backend/src/**/*.ts
+alwaysApply: false
+---
+
+# Backend — Express / Effect / Prisma
+
+Papel: `.ai/agents/backend-engineer.md`. Padrões: `.ai/standards/backend/coding.md`. Stacks: `.ai/stacks/{express,effect3,prisma,supabase,typescript,node}.md`.
+Contratos: `docs/contracts.md`. Risco: `docs/risk.md`.
+
+- Rotas em `src/presentation/http/create-app.ts`; admin protegido por `require-admin.ts` (JWT + `ADMIN_ALLOWED_EMAILS`).
+- Regra de negócio em `src/application/use-cases/` dependendo de ports (Context); Prisma só em `src/infrastructure/prisma/*` (adapter + layer). Erros de domínio em `src/domain/errors`.
+- Validar input com Zod de `@gmbovinos/shared`; erros com status correto, sem vazar stack; não logar PII/tokens.
+- Client Prisma gerado em `src/infrastructure/prisma/output` — não editar; `yarn db:generate` após mudar schema.
+- Rota nova/alterada → atualizar `docs/contracts.md` e o consumidor em `apps/web`.
+- Validar: `yarn workspace @gmbovinos/backend build` (tsc) + smoke `yarn dev:backend`.

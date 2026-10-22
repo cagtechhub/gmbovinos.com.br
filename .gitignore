@@ -29,3 +29,5 @@ logs
 gha_deploy*
 
 apps/web/public/media
+# Padrões IA compartilhados (symlink local → ../.ai)
+.ai

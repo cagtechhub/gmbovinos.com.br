@@ -1,0 +1,14 @@
+---
+description: DBA PostgreSQL/Prisma/Supabase — schema `gmbovinos`, migrations, queries e índices. Use ao editar schema.prisma, migrations, seed ou queries Prisma.
+globs: apps/backend/prisma/**/*,apps/backend/src/infrastructure/prisma/*.ts,apps/backend/supabase/**
+alwaysApply: false
+---
+
+# DBA — PostgreSQL / Prisma / Supabase
+
+Consulte `.ai/agents/dba-engineer.md`, `.ai/stacks/{prisma,postgresql,supabase}.md`, skill `.ai/skills/database-analysis/SKILL.md`.
+
+- Schema único `gmbovinos` (`@@schema("gmbovinos")` em todo model/enum).
+- **Schema novo só via `prisma migrate`** em `apps/backend/prisma/migrations/`; nunca SQL manual nem `db push` em produção. Não editar migrations já aplicadas.
+- Migrations aditivas; destrutivas exigem plano e autorização. Não rodar `db:migrate`/`db:seed` sem autorização.
+- Listas do admin com limite/ordenação; evitar N+1.
