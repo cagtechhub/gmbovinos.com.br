@@ -76,12 +76,16 @@ const onSubmit = async () => {
         <div class="flex items-start justify-between gap-4">
           <div>
             <p class="admin-eyebrow">Área restrita</p>
-            <h1 class="mt-2 text-2xl font-semibold tracking-tight text-gray-900">Bem-vindo de volta</h1>
+            <h1 class="mt-2 text-2xl font-semibold tracking-tight text-gray-900">
+              Bem-vindo de volta
+            </h1>
             <p class="mt-2 max-w-md text-sm leading-relaxed text-gray-600">
               Entre com a conta autorizada para gerenciar o painel.
             </p>
           </div>
-          <span class="hidden size-10 shrink-0 place-items-center rounded-full bg-primary-500/10 text-primary-700 sm:grid">
+          <span
+            class="hidden size-10 shrink-0 place-items-center rounded-full bg-primary-500/10 text-primary-700 sm:grid"
+          >
             <LockKeyhole class="size-5" aria-hidden="true" />
           </span>
         </div>

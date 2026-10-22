@@ -28,7 +28,7 @@ export const useGallery = () => {
     () => $fetch<GalleryItem[]>(`${apiBase.value}/gallery`),
     {
       default: () => [] as GalleryItem[],
-    },
+    }
   )
 
   const items = computed(() => {
@@ -39,7 +39,7 @@ export const useGallery = () => {
   })
 
   const heroImageUrl = computed(
-    () => data.value?.find((item) => item.featuredHero && item.kind === 'IMAGE')?.url || '',
+    () => data.value?.find((item) => item.featuredHero && item.kind === 'IMAGE')?.url || ''
   )
 
   return {

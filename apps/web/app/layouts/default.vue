@@ -11,7 +11,7 @@ const { whatsappLink } = storeToRefs(store)
 </script>
 
 <template>
-  <div class="page-atmosphere min-h-screen font-sans text-gray-900 antialiased">
+  <div class="min-h-screen bg-surface-container-low font-body text-text-strong antialiased">
     <ConsentBanner />
     <NuxtRouteAnnouncer />
 
@@ -21,7 +21,7 @@ const { whatsappLink } = storeToRefs(store)
     />
 
     <main
-      class="relative flex w-full flex-col gap-0 px-6 pb-0 lg:px-10 animate-fade-up motion-reduce:animate-none"
+      class="relative flex w-full flex-col gap-0 pb-0"
       :class="consent.shouldPrompt ? 'pb-44 sm:pb-40' : ''"
     >
       <slot />

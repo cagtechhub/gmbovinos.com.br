@@ -47,7 +47,7 @@ const load = async () => {
 
 const addFiles = (list: FileList | File[]) => {
   const next = Array.from(list).filter(
-    (file) => file.type.startsWith('image/') || file.type.startsWith('video/'),
+    (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
   )
   uploadFiles.value = [...uploadFiles.value, ...next]
 }
@@ -122,7 +122,7 @@ const onToggleHero = async (item: GalleryItem) => {
   try {
     const updated = await api.updateGalleryItem(item.id, { featuredHero: !item.featuredHero })
     items.value = items.value.map((row) =>
-      row.id === updated.id ? updated : { ...row, featuredHero: false },
+      row.id === updated.id ? updated : { ...row, featuredHero: false }
     )
     success.value = updated.featuredHero ? 'Imagem definida no hero.' : 'Destaque do hero removido.'
   } catch {
@@ -205,7 +205,9 @@ await load()
       <div class="flex items-start justify-between gap-3">
         <div>
           <h3 class="text-lg font-semibold text-gray-900">Upload em massa</h3>
-          <p class="mt-1 text-sm text-gray-600">Arraste várias imagens ou vídeos, ou selecione no computador.</p>
+          <p class="mt-1 text-sm text-gray-600">
+            Arraste várias imagens ou vídeos, ou selecione no computador.
+          </p>
         </div>
         <span class="portal-icon">
           <Images class="size-4" aria-hidden="true" />
@@ -263,13 +265,11 @@ await load()
     <p v-if="loading" class="text-sm text-gray-600">Carregando…</p>
 
     <ul v-else class="grid gap-4 lg:grid-cols-2">
-      <li
-        v-for="(item, index) in items"
-        :key="item.id"
-        class="portal-card hover:translate-y-0"
-      >
+      <li v-for="(item, index) in items" :key="item.id" class="portal-card hover:translate-y-0">
         <div class="flex flex-col gap-4 sm:flex-row">
-          <div class="h-36 w-full shrink-0 overflow-hidden rounded-control bg-gray-100 shadow-card sm:w-44">
+          <div
+            class="h-36 w-full shrink-0 overflow-hidden rounded-control bg-gray-100 shadow-card sm:w-44"
+          >
             <img
               v-if="item.kind === 'IMAGE'"
               :src="item.url"
@@ -288,7 +288,9 @@ await load()
             <div class="flex flex-wrap items-center gap-2">
               <span
                 class="rounded-md px-2 py-0.5 text-[11px] font-bold uppercase"
-                :class="item.active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-600'"
+                :class="
+                  item.active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-600'
+                "
               >
                 {{ item.active ? 'Ativo' : 'Inativo' }}
               </span>

@@ -18,9 +18,7 @@ export default defineNuxtPlugin(() => {
   const metaPixelId = computed(() => String(config.public.metaPixelId || '').trim())
 
   const loadScripts = computed(
-    () =>
-      consent.marketingAllowed &&
-      Boolean(ga4MeasurementId.value || metaPixelId.value)
+    () => consent.marketingAllowed && Boolean(ga4MeasurementId.value || metaPixelId.value)
   )
 
   useHead(() => {

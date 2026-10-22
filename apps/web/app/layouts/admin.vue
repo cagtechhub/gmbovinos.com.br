@@ -19,7 +19,9 @@ const { logout } = useAdminApi()
 const mobileNavOpen = ref(false)
 const adminEmail = ref('')
 
-const siteName = computed(() => String(config.public.siteName || 'GM Bovinos').trim() || 'GM Bovinos')
+const siteName = computed(
+  () => String(config.public.siteName || 'GM Bovinos').trim() || 'GM Bovinos'
+)
 
 const links: Array<{
   to: string
@@ -88,7 +90,7 @@ watch(
   () => route.path,
   () => {
     mobileNavOpen.value = false
-  },
+  }
 )
 
 onMounted(async () => {
@@ -120,9 +122,17 @@ useHead({
       :class="mobileNavOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
       aria-label="Menu de navegação"
     >
-      <div class="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-white/10 px-4 lg:h-20 lg:px-5">
+      <div
+        class="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-white/10 px-4 lg:h-20 lg:px-5"
+      >
         <NuxtLink to="/" class="focus-ring min-w-0">
-          <img src="/img/logo-mono.png" alt="GM Bovinos" class="h-8 w-auto invert" width="140" height="32" />
+          <img
+            src="/img/logo-mono.png"
+            alt="GM Bovinos"
+            class="h-8 w-auto invert"
+            width="140"
+            height="32"
+          />
         </NuxtLink>
         <button
           class="focus-ring grid size-9 place-items-center rounded-control text-white/70 hover:bg-white/10 hover:text-white lg:hidden"
@@ -135,9 +145,15 @@ useHead({
       </div>
 
       <div class="shrink-0 border-b border-white/10 px-3 py-4 lg:px-4">
-        <p class="px-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent-300">Painel admin</p>
-        <div class="mt-2 flex w-full items-center gap-3 rounded-control bg-white/5 px-3 py-2.5 text-left text-sm">
-          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-accent-500 text-xs font-bold text-primary-700">
+        <p class="px-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent-300">
+          Painel admin
+        </p>
+        <div
+          class="mt-2 flex w-full items-center gap-3 rounded-control bg-white/5 px-3 py-2.5 text-left text-sm"
+        >
+          <span
+            class="grid size-8 shrink-0 place-items-center rounded-full bg-accent-500 text-xs font-bold text-primary-700"
+          >
             GM
           </span>
           <span class="min-w-0">
@@ -148,7 +164,9 @@ useHead({
       </div>
 
       <nav class="min-h-0 flex-1 overflow-y-auto px-3 py-5">
-        <p class="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">Menu</p>
+        <p class="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">
+          Menu
+        </p>
         <ul class="space-y-1">
           <li v-for="link in links" :key="link.to">
             <NuxtLink
@@ -189,7 +207,9 @@ useHead({
 
     <div class="flex min-h-screen min-w-0 flex-1 flex-col">
       <header class="sticky top-0 z-30 border-b border-gray-300 bg-white/95 backdrop-blur">
-        <div class="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:h-[4.5rem] lg:px-8">
+        <div
+          class="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:h-[4.5rem] lg:px-8"
+        >
           <div class="flex min-w-0 items-center gap-3">
             <button
               class="focus-ring grid size-10 shrink-0 place-items-center rounded-control border border-gray-300 text-primary-700 lg:hidden"
@@ -211,7 +231,9 @@ useHead({
           <div class="flex shrink-0 items-center gap-2 sm:gap-4">
             <div class="hidden h-8 w-px bg-gray-300 sm:block" />
             <div class="flex items-center gap-2.5">
-              <span class="grid size-9 place-items-center rounded-full bg-primary-700 text-xs font-bold text-white">
+              <span
+                class="grid size-9 place-items-center rounded-full bg-primary-700 text-xs font-bold text-white"
+              >
                 {{ adminInitials }}
               </span>
               <div class="hidden sm:block">

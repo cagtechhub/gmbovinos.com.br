@@ -17,11 +17,9 @@ defineEmits<{
   click: []
 }>()
 
-const strokeClass =
-  'stroke-current ' + (props.tone === 'dark' ? 'text-white' : 'text-gray-800')
+const strokeClass = 'stroke-current ' + (props.tone === 'dark' ? 'text-white' : 'text-gray-800')
 
-const hideUntilDesktop =
-  props.hideFrom === 'sm' ? 'sm:hidden' : 'md:hidden'
+const hideUntilDesktop = props.hideFrom === 'sm' ? 'sm:hidden' : 'md:hidden'
 
 const surfaceClass =
   props.tone === 'dark'

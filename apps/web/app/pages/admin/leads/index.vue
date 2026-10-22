@@ -288,7 +288,9 @@ await load()
         <h2 class="portal-page-title">Leads</h2>
         <p class="portal-page-desc">Quadro estilo pipeline — arraste os cartões entre as listas.</p>
       </div>
-      <button type="button" class="btn-primary focus-ring" @click="openCreate('NEW')">Novo lead</button>
+      <button type="button" class="btn-primary focus-ring" @click="openCreate('NEW')">
+        Novo lead
+      </button>
     </header>
 
     <p v-if="error" class="text-sm text-red-600">{{ error }}</p>

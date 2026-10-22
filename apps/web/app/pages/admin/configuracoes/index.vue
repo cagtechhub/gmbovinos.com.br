@@ -114,17 +114,15 @@ await load()
       <div>
         <p class="admin-eyebrow">Site</p>
         <h2 class="portal-page-title">Configurações</h2>
-        <p class="portal-page-desc">SEO, contato, redes, mapa e analytics — usados no site público.</p>
+        <p class="portal-page-desc">
+          SEO, contato, redes, mapa e analytics — usados no site público.
+        </p>
       </div>
     </header>
 
     <p v-if="loading" class="text-sm text-gray-600">Carregando…</p>
 
-    <form
-      v-else
-      class="portal-card space-y-4 hover:translate-y-0"
-      @submit.prevent="onSubmit"
-    >
+    <form v-else class="portal-card space-y-4 hover:translate-y-0" @submit.prevent="onSubmit">
       <div class="grid gap-4 sm:grid-cols-2">
         <label class="block text-sm text-gray-600 sm:col-span-2">
           Nome do site
@@ -301,11 +299,7 @@ await load()
       <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
       <p v-if="success" class="text-sm text-emerald-700">{{ success }}</p>
 
-      <button
-        type="submit"
-        class="btn-primary focus-ring"
-        :disabled="saving"
-      >
+      <button type="submit" class="btn-primary focus-ring" :disabled="saving">
         {{ saving ? 'Salvando…' : 'Salvar configurações' }}
       </button>
     </form>

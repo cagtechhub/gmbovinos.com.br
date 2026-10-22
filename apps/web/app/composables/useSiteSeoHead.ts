@@ -44,7 +44,7 @@ export function useSiteSeoHead() {
   })
 
   const faviconHref = computed(() =>
-    resolvePublicAsset(String(config.public.faviconUrl || '').trim(), '/favicon.png'),
+    resolvePublicAsset(String(config.public.faviconUrl || '').trim(), '/favicon.png')
   )
 
   useSeoMeta({

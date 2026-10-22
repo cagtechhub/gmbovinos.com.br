@@ -37,7 +37,8 @@ function scrollToSection(link: LandingNavLink, event: MouseEvent) {
   const id = sectionIdFromHref(link.href)
   if (!id) return
 
-  const onHome = import.meta.client && (window.location.pathname === '/' || window.location.pathname === '')
+  const onHome =
+    import.meta.client && (window.location.pathname === '/' || window.location.pathname === '')
   if (!onHome) return
 
   event.preventDefault()

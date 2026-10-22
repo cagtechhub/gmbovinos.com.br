@@ -2,143 +2,223 @@
 const config = useRuntimeConfig()
 const seoLocality = computed(() => String(config.public.seoLocality || 'Minas Gerais').trim())
 
-const defaultPillars = [
-  {
-    title: 'Compra e venda de gado',
-    description:
-      'Negociação de lote com análise de condição animal, precificação alinhada ao mercado e acompanhamento da transação — prioridade na operação da GM Bovinos.',
-    points: [
-      'Avaliação técnica para compra ou venda com mais segurança',
-      'Transparência nas condições e no processo comercial',
-      'Parcerias de longo prazo com produtores e frigoríficos',
-    ],
-  },
-  {
-    title: 'Engorda e serviços técnicos no campo',
-    description:
-      'Quando o produtor contrata manejo ou engorda, oferecemos planejamento nutricional, protocolos sanitários e acompanhamento contínuo — a mesma base que sustenta nossas avaliações comerciais.',
-    points: [
-      'Plano técnico por fase do rebanho',
-      'Rotina operacional orientada por indicadores',
-      'Suporte para decisões no manejo e na performance do lote',
-    ],
-  },
-]
-
-const defaultHighlightChips = [
-  { label: 'Prioridade', value: 'Compra e venda de gado' },
-  { label: 'Base técnica', value: 'Engorda e manejo' },
-  { label: 'Foco', value: 'Negócio seguro e claro' },
-]
-
-const defaultBody =
-  'A GM Bovinos tem como foco principal a compra e venda de gado, com avaliação de lote e acompanhamento comercial de ponta a ponta. A operação de engorda, manejo e sanidade é a base técnica que sustenta negócios mais seguros e previsíveis para produtores e parceiros.'
-
 const { sectionByKey } = useSiteSections()
 const payload = computed(() => sectionByKey('atuacao')?.payload)
 
-const eyebrow = computed(() => payload.value?.eyebrow || 'Atuação institucional')
-const headline = computed(() => payload.value?.headline || 'Atuação da GM Bovinos')
-const body = computed(() => payload.value?.body || defaultBody)
-
-const highlightChips = computed(() => {
-  const fromApi = payload.value?.highlightChips
-  if (fromApi?.length) return fromApi
-  const chips = payload.value?.chips
-  if (chips?.length) {
-    return chips.map((chip, index) => ({
-      label: defaultHighlightChips[index]?.label || `Destaque ${index + 1}`,
-      value: chip,
-    }))
-  }
-  return defaultHighlightChips
-})
-
-const pillars = computed(() => {
-  const fromApi = payload.value?.pillars
-  if (fromApi?.length) {
-    return fromApi.map((pillar, index) => ({
-      title: pillar.title,
-      description: pillar.description,
-      points: pillar.points?.length ? pillar.points : (defaultPillars[index]?.points ?? []),
-    }))
-  }
-  return defaultPillars
-})
+const eyebrow = computed(() => payload.value?.eyebrow || 'Atuação Comercial & Operacional')
+const headline = computed(
+  () => payload.value?.headline || 'Especialização zootécnica nas duas pontas da cadeia pecuária.'
+)
 </script>
 
 <template>
   <section
     id="atuacao"
-    class="section-band section-band--brand py-20 shadow-none md:py-24"
+    class="w-full bg-dark-surface py-space-section-mobile md:py-space-section text-dark-text-base scroll-mt-20 relative"
   >
-    <div class="section-accent-rule" aria-hidden="true" />
-
-    <div class="landing-section-inner px-6 lg:px-10">
-      <header class="mb-12 text-center md:mb-14">
-        <p class="section-eyebrow section-eyebrow--light justify-center">{{ eyebrow }}</p>
-        <h2 class="section-title section-title--light mt-4">{{ headline }}</h2>
-        <p class="section-lead section-lead--light">
-          {{ body }}
-          <span v-if="seoLocality" class="font-semibold text-white">
-            Atendemos em {{ seoLocality }} e região.</span
+    <div class="max-w-[1240px] mx-auto px-margin-mobile md:px-margin">
+      <!-- Top Technical Chips & Section Title -->
+      <div class="flex flex-col items-start gap-space-sm mb-space-2xl">
+        <div class="flex flex-wrap items-center gap-space-sm">
+          <span
+            class="font-badge-mono text-badge-mono bg-dark-surface-raised px-3 py-1 rounded text-tertiary-light border border-tertiary-fixed-dim/30"
           >
-        </p>
-      </header>
-
-      <div class="mb-10 grid gap-3 sm:grid-cols-3">
-        <article
-          v-for="chip in highlightChips"
-          :key="chip.label + chip.value"
-          class="border border-white/10 bg-white/[0.04] px-4 py-5 text-center backdrop-blur-sm"
+            [SEGMENTO: RECRIA & ENGORDA]
+          </span>
+          <span
+            class="font-badge-mono text-badge-mono bg-dark-surface-raised px-3 py-1 rounded text-dark-text-muted border border-dark-stroke"
+          >
+            [BASE: VARGINHA - SUL DE MINAS]
+          </span>
+          <span
+            class="font-badge-mono text-badge-mono bg-dark-surface-raised px-3 py-1 rounded text-primary-fixed-dim border border-dark-stroke"
+          >
+            [MODALIDADE: SPOT & CONTRATO]
+          </span>
+        </div>
+        <div class="flex items-center gap-space-sm mt-space-xs">
+          <span class="inline-block w-8 h-[2px] bg-tertiary-light" />
+          <span class="font-label text-label text-tertiary-light uppercase tracking-[0.24em]">
+            {{ eyebrow }}
+          </span>
+        </div>
+        <h2
+          class="font-headline text-headline-mobile md:text-headline text-dark-text-strong max-w-2xl"
         >
-          <p class="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-accent-300">
-            {{ chip.label }}
-          </p>
-          <p class="mt-2 text-xl font-semibold tracking-tight text-white md:text-2xl">
-            {{ chip.value }}
-          </p>
-        </article>
+          {{ headline }}
+        </h2>
+        <p v-if="seoLocality" class="text-sm font-medium text-dark-text-muted">
+          Atendemos produtores e frigoríficos em {{ seoLocality }} e todo o Sudeste / Centro-Oeste.
+        </p>
       </div>
 
-      <div class="grid gap-6 md:grid-cols-2">
-        <article
-          v-for="pillar in pillars"
-          :key="pillar.title"
-          class="landing-card card-accent-top"
+      <!-- 2 Contrasting Modern Cards with 2px Golden-Leather Top Rule -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-space-xl">
+        <!-- CARD 1: Compra e Venda de Gado de Corte -->
+        <div
+          class="relative bg-dark-surface-raised rounded-xl p-space-xl border-t-2 border-tertiary-light shadow-[0_24px_64px_rgba(8,21,48,0.4)] flex flex-col justify-between"
         >
-          <div class="mb-4 flex items-center gap-3">
-            <span
-              class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary-500/10 text-primary-700 ring-1 ring-accent-400/40"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                class="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                aria-hidden="true"
+          <div>
+            <div class="flex items-start justify-between gap-space-md mb-space-md">
+              <div>
+                <span
+                  class="font-badge-mono text-badge-mono text-tertiary-light uppercase tracking-wider block mb-1"
+                >
+                  MESA DE NEGOCIAÇÃO
+                </span>
+                <h3 class="font-headline text-[24px] text-dark-text-strong">
+                  Compra & Venda de Gado de Corte
+                </h3>
+              </div>
+              <div
+                class="w-12 h-12 rounded bg-dark-canvas/80 flex items-center justify-center text-tertiary-light border border-dark-stroke shrink-0"
               >
-                <path d="M4 12h16M12 4v16" />
-              </svg>
-            </span>
-            <h3 class="text-lg font-semibold text-gray-900">{{ pillar.title }}</h3>
+                <span class="material-symbols-outlined text-[24px]">swap_horiz</span>
+              </div>
+            </div>
+            <p class="font-body text-body-sm text-dark-text-muted mb-space-lg leading-relaxed">
+              Intermediação e originação contínua de animais de alta performance produtiva.
+              Conectamos criadores a terminadores com liquidez garantida, eliminando assimetrias de
+              mercado.
+            </p>
+
+            <!-- Categorias Negociadas / Specifications Grid -->
+            <div
+              class="grid grid-cols-2 gap-3 p-space-md rounded bg-dark-canvas/60 border border-dark-stroke font-numeric text-numeric mb-space-lg"
+            >
+              <div class="flex flex-col">
+                <span class="text-[11px] font-badge-mono text-dark-text-muted uppercase"
+                  >Recria Primária</span
+                >
+                <span class="text-dark-text-strong font-medium">Bezerros(as) desmamados</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] font-badge-mono text-dark-text-muted uppercase"
+                  >Terminação</span
+                >
+                <span class="text-dark-text-strong font-medium">Garrotes e Bois Magros</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] font-badge-mono text-dark-text-muted uppercase"
+                  >Matrizes</span
+                >
+                <span class="text-dark-text-strong font-medium"
+                  >Fêmeas de reposição e descarte</span
+                >
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] font-badge-mono text-dark-text-muted uppercase"
+                  >Genética</span
+                >
+                <span class="text-dark-text-strong font-medium"
+                  >Nelore e Cruzamento Industrial</span
+                >
+              </div>
+            </div>
+
+            <ul class="space-y-space-xs font-body text-body-sm text-dark-text-base mb-space-lg">
+              <li class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-field text-[18px]">done</span>
+                <span>Originação com rigor zootécnico e histórico sanitário checado</span>
+              </li>
+              <li class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-field text-[18px]">done</span>
+                <span>Pesagem com desconto de rendimento e tara previamente estipulados</span>
+              </li>
+              <li class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-field text-[18px]">done</span>
+                <span>Logística de transporte estruturada para minimizar perda hídrica</span>
+              </li>
+            </ul>
           </div>
+          <a
+            class="w-full inline-flex items-center justify-center h-[48px] rounded bg-primary-container text-on-primary font-label text-label tracking-[0.18em] uppercase hover:bg-primary-hover transition-colors"
+            href="#cta"
+          >
+            Cotar Lotes Disponíveis
+          </a>
+        </div>
 
-          <p class="text-sm leading-relaxed text-gray-600">
-            {{ pillar.description }}
-          </p>
+        <!-- CARD 2: Engorda e Manejo em Confinamento -->
+        <div
+          class="relative bg-dark-surface-raised rounded-xl p-space-xl border-t-2 border-tertiary-light shadow-[0_24px_64px_rgba(8,21,48,0.4)] flex flex-col justify-between"
+        >
+          <div>
+            <div class="flex items-start justify-between gap-space-md mb-space-md">
+              <div>
+                <span
+                  class="font-badge-mono text-badge-mono text-tertiary-light uppercase tracking-wider block mb-1"
+                >
+                  INFRAESTRUTURA INTENSIVA
+                </span>
+                <h3 class="font-headline text-[24px] text-dark-text-strong">
+                  Engorda & Manejo em Confinamento
+                </h3>
+              </div>
+              <div
+                class="w-12 h-12 rounded bg-dark-canvas/80 flex items-center justify-center text-tertiary-light border border-dark-stroke shrink-0"
+              >
+                <span class="material-symbols-outlined text-[24px]">fence</span>
+              </div>
+            </div>
+            <p class="font-body text-body-sm text-dark-text-muted mb-space-lg leading-relaxed">
+              Instalações de terminação intensiva na Fazenda Paraíso em Varginha-MG. Gestão
+              nutricional de precisão que assegura conversão alimentar superior e acabamento de
+              carcaça padrão frigorífico.
+            </p>
 
-          <ul v-if="pillar.points.length" class="mt-5 space-y-2.5 text-sm text-gray-900">
-            <li v-for="point in pillar.points" :key="point" class="flex items-start gap-2.5">
-              <span
-                class="mt-[0.45rem] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent-500"
-                aria-hidden="true"
-              />
-              <span>{{ point }}</span>
-            </li>
-          </ul>
-        </article>
+            <!-- Technical Facility Specs Grid -->
+            <div
+              class="grid grid-cols-2 gap-3 p-space-md rounded bg-dark-canvas/60 border border-dark-stroke font-numeric text-numeric mb-space-lg"
+            >
+              <div class="flex flex-col">
+                <span class="text-[11px] font-badge-mono text-dark-text-muted uppercase"
+                  >Unidade Matriz</span
+                >
+                <span class="text-dark-text-strong font-medium">Fazenda Paraíso • Varginha</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] font-badge-mono text-dark-text-muted uppercase"
+                  >GMD Monitorado</span
+                >
+                <span class="text-dark-text-strong font-medium">1,45kg a 1,75kg / dia</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] font-badge-mono text-dark-text-muted uppercase"
+                  >Nutrição</span
+                >
+                <span class="text-dark-text-strong font-medium">Silagem e grãos balanceados</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] font-badge-mono text-dark-text-muted uppercase"
+                  >Sustentabilidade</span
+                >
+                <span class="text-dark-text-strong font-medium">Parceria IFB Fertilizantes</span>
+              </div>
+            </div>
+
+            <ul class="space-y-space-xs font-body text-body-sm text-dark-text-base mb-space-lg">
+              <li class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-field text-[18px]">done</span>
+                <span>Piquetes com drenagem, cochos cobertos e bebedouros limpos diariamente</span>
+              </li>
+              <li class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-field text-[18px]">done</span>
+                <span>Protocolo de bem-estar animal com redução contínua de estresse térmico</span>
+              </li>
+              <li class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-field text-[18px]">done</span>
+                <span>Destinação ambiental correta de dejetos via BioFertilizante Conforto</span>
+              </li>
+            </ul>
+          </div>
+          <a
+            class="w-full inline-flex items-center justify-center h-[48px] rounded border border-tertiary-fixed-dim/40 text-tertiary-light font-label text-label tracking-[0.18em] uppercase hover:bg-tertiary-fixed-dim hover:text-dark-canvas transition-all"
+            href="#cta"
+          >
+            Conhecer Estrutura de Confinamento
+          </a>
+        </div>
       </div>
     </div>
   </section>

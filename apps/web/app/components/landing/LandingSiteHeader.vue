@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { landingNavAllLinks, landingNavSectionLinks } from '~/constants/landingNavLinks'
+import { landingNavSectionLinks } from '~/constants/landingNavLinks'
 
 withDefaults(
   defineProps<{
-    /** `overlay`: barra sobre foto (hero); `solid`: cartão claro padrão. */
+    /** `overlay`: barra sobre foto (hero); `solid`: barra sólida com blur. */
     variant?: 'solid' | 'overlay'
   }>(),
   { variant: 'solid' }
@@ -19,109 +19,102 @@ function closeMobileMenu() {
 
 <template>
   <header
-    v-if="variant === 'solid'"
-    class="sticky top-4 inset-x-0 z-50 mx-auto w-[calc(100%-1.5rem)] max-w-7xl rounded-box border border-gray-300/70 bg-white/90 shadow-[0_8px_30px_-12px_rgb(30_58_138_/_0.2)] ring-1 ring-accent-500/10 backdrop-blur-md transition-all duration-300 sm:top-5 sm:w-[calc(100%-2rem)]"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+    :class="
+      variant === 'solid'
+        ? 'bg-surface-container-low/95 backdrop-blur-xl border-b border-stroke shadow-[0_1px_8px_rgba(20,24,31,0.06)]'
+        : 'bg-dark-canvas/40 backdrop-blur-sm border-b border-white/10'
+    "
   >
-    <nav
-      class="flex w-full flex-wrap items-center justify-between gap-4 px-4 py-3.5 sm:px-5"
-      aria-label="Principal"
+    <div
+      class="h-20 max-w-[1240px] mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-space-md"
     >
-      <div class="flex min-w-0 flex-1 items-center gap-2">
-        <a href="/" title="GM Bovinos — início">
-          <nuxt-img src="/img/logo.png" alt="GM Bovinos" class="w-44 sm:w-48" width="192" height="74" />
+      <div class="flex items-center gap-space-md">
+        <a
+          href="/"
+          class="flex items-center gap-space-sm group focus:outline-none"
+          title="GM Bovinos — início"
+        >
+          <nuxt-img
+            src="/img/logo.png"
+            alt="GM Bovinos"
+            width="192"
+            height="74"
+            class="h-8 w-auto object-contain"
+            :class="variant === 'overlay' ? 'brightness-0 invert' : ''"
+          />
+          <span
+            class="font-headline text-title tracking-tight font-medium"
+            :class="variant === 'overlay' ? 'text-dark-text-strong' : 'text-text-strong'"
+          >
+            GM BOVINOS
+          </span>
         </a>
       </div>
 
-      <div class="flex items-center justify-end gap-3">
-        <LandingNavLinkList
-          class="hidden md:flex"
-          :links="landingNavAllLinks"
-          theme="solid"
-          orientation="horizontal"
-        />
+      <nav class="hidden md:flex items-center gap-space-xl">
+        <a
+          v-for="link in landingNavSectionLinks"
+          :key="link.href"
+          :href="link.href"
+          class="font-body text-body-sm transition-colors"
+          :class="
+            variant === 'overlay'
+              ? 'text-dark-text-base hover:text-dark-text-strong'
+              : 'text-text-base hover:text-text-strong'
+          "
+        >
+          {{ link.label }}
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-space-md">
+        <a
+          href="#cta"
+          class="hidden sm:inline-flex items-center justify-center h-[52px] px-space-lg rounded bg-primary-container text-on-primary font-label text-label tracking-[0.18em] uppercase hover:bg-primary-hover transition-all shadow-[0_1px_2px_rgba(20,24,31,0.06)] focus:outline-none focus:ring-2 focus:ring-primary-container focus:ring-offset-2"
+          :class="variant === 'overlay' ? 'border border-dark-stroke' : ''"
+        >
+          Contato
+        </a>
+
         <UiMenuIconButton
           :expanded="mobileMenuOpen"
-          tone="light"
+          :tone="variant === 'overlay' ? 'dark' : 'light'"
           :controls-id="mobilePanelId"
           hide-from="md"
           @click="mobileMenuOpen = !mobileMenuOpen"
         />
       </div>
-    </nav>
-
-    <UiMobileDrawer
-      v-model="mobileMenuOpen"
-      :panel-id="mobilePanelId"
-      title="Menu"
-      tone="light"
-      hide-from="md"
-      panel-class="border-gray-200 bg-white text-gray-900"
-      backdrop-class="bg-black/40"
-    >
-      <LandingNavLinkList
-        :links="landingNavAllLinks"
-        theme="solid"
-        orientation="vertical"
-        @navigate="closeMobileMenu"
-      />
-    </UiMobileDrawer>
-  </header>
-
-  <header
-    v-else
-    class="pointer-events-none absolute inset-x-0 top-0 z-50 border-b border-white/10 bg-gradient-to-b from-black/40 via-black/15 to-transparent"
-  >
-    <nav
-      class="pointer-events-auto mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-5 lg:px-8"
-      aria-label="Principal"
-    >
-      <div class="flex min-w-0 flex-1 items-center gap-2">
-        <a href="/" class="inline-flex" title="GM Bovinos — início">
-          <nuxt-img
-            src="/img/logo-mono.png"
-            alt="GM Bovinos"
-            width="192"
-            height="74"
-            class="h-12 w-auto max-w-[11rem] object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] invert"
-          />
-        </a>
-      </div>
-
-      <div class="flex items-center justify-end gap-3 sm:gap-6">
-        <UiMenuIconButton
-          :expanded="mobileMenuOpen"
-          tone="dark"
-          :controls-id="mobilePanelId"
-          hide-from="sm"
-          @click="mobileMenuOpen = !mobileMenuOpen"
-        />
-        <LandingNavLinkList
-          class="hidden sm:flex"
-          :links="landingNavSectionLinks"
-          theme="overlay"
-          orientation="horizontal"
-        />
-        <a href="#cta" class="btn-landing btn-landing--accent hidden !min-w-0 !px-5 !py-2.5 sm:inline-flex">
-          Contato
-        </a>
-      </div>
-    </nav>
+    </div>
 
     <UiMobileDrawer
       v-model="mobileMenuOpen"
       :panel-id="mobilePanelId"
       title="Menu"
       tone="dark"
-      hide-from="sm"
-      panel-class="border-white/20 bg-gray-900/98 text-white backdrop-blur-md"
-      backdrop-class="bg-black/55"
+      hide-from="md"
+      panel-class="border-dark-stroke bg-dark-surface text-on-secondary"
+      backdrop-class="bg-dark-canvas/70 backdrop-blur-sm"
     >
-      <LandingNavLinkList
-        :links="landingNavAllLinks"
-        theme="overlay"
-        orientation="vertical"
-        @navigate="closeMobileMenu"
-      />
+      <nav class="flex flex-col gap-3 p-4">
+        <a
+          v-for="link in landingNavSectionLinks"
+          :key="link.href"
+          :href="link.href"
+          class="font-body text-body text-dark-text-base hover:text-dark-text-strong py-2 border-b border-dark-stroke/50"
+          @click="closeMobileMenu"
+        >
+          {{ link.label }}
+        </a>
+        <a
+          href="#cta"
+          class="mt-4 w-full h-[52px] rounded bg-primary-container hover:bg-primary-hover text-on-primary font-label text-label tracking-wider flex items-center justify-center gap-2"
+          @click="closeMobileMenu"
+        >
+          <span>CONTATO</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </nav>
     </UiMobileDrawer>
   </header>
 </template>

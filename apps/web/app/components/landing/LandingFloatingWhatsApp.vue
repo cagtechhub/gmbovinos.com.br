@@ -13,10 +13,10 @@ defineEmits<{
     :href="whatsappLink"
     target="_blank"
     rel="noopener noreferrer"
-    class="whatsapp-pulse fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full bg-brand-500 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-600"
+    aria-label="Falar no WhatsApp com GM Bovinos"
+    class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-whatsapp text-on-primary flex items-center justify-center shadow-[0_12px_32px_rgba(1,163,164,0.35)] hover:scale-105 active:scale-95 transition-all focus:outline-none"
     @click.prevent="$emit('openWhatsapp')"
   >
-    <IconsWhatsAppIcon class="h-4 w-4 shrink-0" />
-    Falar no WhatsApp
+    <span class="material-symbols-outlined text-[28px]">chat</span>
   </a>
 </template>

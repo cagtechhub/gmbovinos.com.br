@@ -3,73 +3,118 @@ import { formatPhone } from '~/utils/formatPhone'
 
 const config = useRuntimeConfig()
 
-const address = computed(() => String(config.public.businessAddress || '').trim())
-const businessPhone = computed(() => String(config.public.businessPhone || '').replace(/\D/g, ''))
-const whatsappNumber = computed(() => String(config.public.whatsappNumber || '').replace(/\D/g, ''))
-
-const telHref = computed(() =>
-  businessPhone.value ? `tel:${formatPhone(businessPhone.value, 'international')}` : ''
+const businessPhone = computed(() =>
+  String(config.public.businessPhone || '35998421200').replace(/\D/g, '')
 )
+const contactEmail = computed(() =>
+  String(config.public.contactEmail || 'contato@gmbovinos.com.br').trim()
+)
+const formattedPhone = computed(() => formatPhone(businessPhone.value, 'local'))
 </script>
 
 <template>
-  <footer class="relative bg-gray-900 py-12 text-white md:py-14">
-    <div class="section-accent-rule" aria-hidden="true" />
-    <div
-      class="mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-5 px-10 text-center lg:px-10"
-    >
-      <p class="text-lg font-semibold tracking-wide">GM Bovinos © 2026</p>
-
-      <address v-if="address || telHref" class="not-italic text-sm leading-relaxed text-gray-300">
-        <span v-if="address" class="block font-medium text-white/90">{{ address }}</span>
-
-        <div class="mt-2 flex items-center justify-center gap-2">
-          <a
-            v-if="telHref"
-            :href="telHref"
-            class="inline-block font-medium text-accent-300 underline-offset-2 hover:text-accent-400 hover:underline"
-            title="Ligar para a GM Bovinos"
-          >
-            {{ formatPhone(businessPhone, 'local') }}
-          </a>
-          <span aria-hidden="true" class="text-white/30">·</span>
-          <a
-            v-if="whatsappNumber"
-            :href="`https://wa.me/${whatsappNumber}`"
-            class="inline-block font-medium text-accent-300 underline-offset-2 hover:text-accent-400 hover:underline"
-            title="Enviar mensagem no WhatsApp"
-          >
-            {{ formatPhone(whatsappNumber, 'local') }}
-          </a>
-        </div>
-      </address>
-      <nav
-        class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-gray-400"
-        aria-label="Links internos"
+  <footer class="w-full bg-dark-canvas text-dark-text-base border-t border-dark-stroke">
+    <div class="max-w-[1240px] mx-auto px-margin-mobile md:px-margin pt-space-2xl pb-space-xl">
+      <div
+        class="grid grid-cols-1 md:grid-cols-12 gap-space-xl pb-space-xl border-b border-dark-stroke/60"
       >
-        <a href="/#como-funciona" class="transition hover:text-accent-300">Como funciona</a>
-        <span aria-hidden="true" class="text-white/20">·</span>
-        <a href="/#atuacao" class="transition hover:text-accent-300">Atuação</a>
-        <span aria-hidden="true" class="text-white/20">·</span>
-        <a href="/#gallery" class="transition hover:text-accent-300">Galeria</a>
-        <span aria-hidden="true" class="text-white/20">·</span>
-        <a href="/#sobre-nos" class="transition hover:text-accent-300">Sobre nós</a>
-        <span aria-hidden="true" class="text-white/20">·</span>
-        <a href="/#cta" class="transition hover:text-accent-300">Contato</a>
-      </nav>
-      <p class="text-xs text-gray-500">Todos os direitos reservados</p>
-      <p class="text-xs text-gray-500">
-        Direitos autorais
-        <a
-          href="http://cagtech.com.br"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="font-medium text-accent-300 underline-offset-2 transition hover:text-accent-400 hover:underline"
-          title="Visitar o site da CAG TECH"
-        >
-          CAG TECH
-        </a>
-      </p>
+        <!-- Col 1: Marca & Síntese -->
+        <div class="md:col-span-5 flex flex-col gap-space-md">
+          <div class="flex items-center gap-space-sm">
+            <img
+              alt="GM Bovinos Logo"
+              class="h-8 w-auto object-contain brightness-0 invert"
+              src="/img/logo.png"
+            />
+            <span class="font-headline text-title text-dark-text-strong tracking-tight font-medium">
+              GM BOVINOS
+            </span>
+          </div>
+          <p class="font-body text-body-sm text-dark-text-muted max-w-sm leading-relaxed">
+            Intermediação qualificada, assessoria pecuária e comercialização de gado de corte com
+            rigor zootécnico e transparência institucional.
+          </p>
+          <div
+            class="flex items-center gap-space-xs text-dark-text-muted font-badge-mono text-badge-mono uppercase"
+          >
+            <span class="material-symbols-outlined text-tertiary-light text-[18px]"
+              >location_on</span
+            >
+            <span>Varginha • Minas Gerais • Brasil</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Navegação -->
+        <div class="md:col-span-4 flex flex-col gap-space-sm">
+          <span class="font-label text-label text-tertiary-light uppercase tracking-[0.24em]">
+            Navegação Direta
+          </span>
+          <div class="flex flex-col gap-space-xs font-body text-body-sm">
+            <a
+              class="text-dark-text-muted hover:text-dark-text-strong transition-colors"
+              href="#como-funciona"
+            >
+              Como funciona
+            </a>
+            <a
+              class="text-dark-text-muted hover:text-dark-text-strong transition-colors"
+              href="#atuacao"
+            >
+              Atuação Comercial
+            </a>
+            <a
+              class="text-dark-text-muted hover:text-dark-text-strong transition-colors"
+              href="#gallery"
+            >
+              Galeria de Lotes
+            </a>
+            <a
+              class="text-dark-text-muted hover:text-dark-text-strong transition-colors"
+              href="#sobre-nos"
+            >
+              Sobre a GM Bovinos
+            </a>
+            <a
+              class="text-dark-text-muted hover:text-dark-text-strong transition-colors"
+              href="#cta"
+            >
+              Central de Negócios
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 3: Desk Comercial -->
+        <div class="md:col-span-3 flex flex-col gap-space-sm">
+          <span class="font-label text-label text-tertiary-light uppercase tracking-[0.24em]">
+            Desk Comercial
+          </span>
+          <div class="flex flex-col gap-space-xs font-body text-body-sm text-dark-text-muted">
+            <div class="flex items-center gap-space-xs">
+              <span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">call</span>
+              <span class="font-numeric text-numeric text-dark-text-strong">{{
+                formattedPhone
+              }}</span>
+            </div>
+            <div class="flex items-center gap-space-xs">
+              <span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">mail</span>
+              <span>{{ contactEmail }}</span>
+            </div>
+            <div class="flex items-center gap-space-xs">
+              <span class="material-symbols-outlined text-primary-fixed-dim text-[18px]"
+                >schedule</span
+              >
+              <span class="font-numeric text-badge-mono">SEG - SEX: 07:30 - 18:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-badge-mono text-badge-mono text-dark-text-muted"
+      >
+        <p>© 2026 GM Bovinos. Todos os direitos reservados. gmbovinos.com.br</p>
+        <p class="tracking-wider uppercase">Rigor Técnico • Liquidez no Campo</p>
+      </div>
     </div>
   </footer>
 </template>

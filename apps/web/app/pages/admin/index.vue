@@ -98,11 +98,18 @@ onMounted(() => {
     <p v-if="loading" class="text-sm text-gray-600">Carregando…</p>
     <div v-else-if="error" class="space-y-3">
       <p class="text-sm text-red-600">{{ error }}</p>
-      <button type="button" class="btn-secondary focus-ring" @click="loadDashboard">Tentar novamente</button>
+      <button type="button" class="btn-secondary focus-ring" @click="loadDashboard">
+        Tentar novamente
+      </button>
     </div>
 
     <div v-else class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      <NuxtLink v-for="card in cards" :key="card.label" :to="card.to" class="portal-card transition hover:border-accent-400/50">
+      <NuxtLink
+        v-for="card in cards"
+        :key="card.label"
+        :to="card.to"
+        class="portal-card transition hover:border-accent-400/50"
+      >
         <div class="flex items-start justify-between gap-3">
           <p class="text-sm text-gray-600">{{ card.label }}</p>
           <span class="portal-icon">

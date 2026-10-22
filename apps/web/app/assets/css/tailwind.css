@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,18 +11,37 @@
     scroll-behavior: smooth;
   }
 
+  body {
+    @apply bg-surface-container-low font-body text-text-strong antialiased;
+  }
+
   #como-funciona,
   #atuacao,
   #sobre-servico,
   #gallery,
   #sobre-nos,
   #cta {
-    scroll-margin-top: 7rem;
+    scroll-margin-top: 5.5rem;
   }
 
   ::selection {
-    @apply bg-primary-500/20 text-primary-700;
+    @apply bg-primary-fixed text-on-primary-fixed;
   }
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
 }
 
 /**
@@ -231,7 +251,9 @@
 
   .photo-warm {
     filter: saturate(1.08) contrast(1.05) brightness(0.97) sepia(0.06);
-    transition: filter 0.55s ease, transform 8s ease;
+    transition:
+      filter 0.55s ease,
+      transform 8s ease;
   }
 
   .photo-kenburns {

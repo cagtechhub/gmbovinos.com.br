@@ -40,17 +40,13 @@ function close() {
 }
 
 const headerBarClass = computed(() =>
-  props.tone === 'dark'
-    ? 'border-white/15 text-white'
-    : 'border-gray-200 text-gray-900'
+  props.tone === 'dark' ? 'border-white/15 text-white' : 'border-gray-200 text-gray-900'
 )
 const closeBtnClass = computed(() =>
   props.tone === 'dark' ? 'hover:bg-white/10' : 'hover:bg-black/5'
 )
 
-const visibilityClass = computed(() =>
-  props.hideFrom === 'sm' ? 'sm:hidden' : 'md:hidden'
-)
+const visibilityClass = computed(() => (props.hideFrom === 'sm' ? 'sm:hidden' : 'md:hidden'))
 </script>
 
 <template>
@@ -63,17 +59,8 @@ const visibilityClass = computed(() =>
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div
-        v-if="open"
-        class="fixed inset-0 z-[100]"
-        :class="visibilityClass"
-        role="presentation"
-      >
-        <div
-          :class="['absolute inset-0', backdropClass]"
-          aria-hidden="true"
-          @click="close"
-        />
+      <div v-if="open" class="fixed inset-0 z-[100]" :class="visibilityClass" role="presentation">
+        <div :class="['absolute inset-0', backdropClass]" aria-hidden="true" @click="close" />
         <aside
           :id="panelId"
           class="drawer-panel absolute right-0 top-0 flex h-full max-h-[100dvh] w-[min(20rem,88vw)] flex-col border-l shadow-2xl"
