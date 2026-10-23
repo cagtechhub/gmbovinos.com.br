@@ -21,14 +21,13 @@ const formattedPhone = computed(() => formatPhone(businessPhone.value, 'local'))
         <!-- Col 1: Marca & Síntese -->
         <div class="md:col-span-5 flex flex-col gap-space-md">
           <div class="flex items-center gap-space-sm">
-            <img
+            <nuxt-img
+              src="/img/logo-mono.png"
               alt="GM Bovinos Logo"
-              class="h-8 w-auto object-contain brightness-0 invert"
-              src="/img/logo.png"
+              width="192"
+              height="74"
+              class="h-8 w-auto object-contain invert"
             />
-            <span class="font-headline text-title text-dark-text-strong tracking-tight font-medium">
-              GM BOVINOS
-            </span>
           </div>
           <p class="font-body text-body-sm text-dark-text-muted max-w-sm leading-relaxed">
             Intermediação qualificada, assessoria pecuária e comercialização de gado de corte com

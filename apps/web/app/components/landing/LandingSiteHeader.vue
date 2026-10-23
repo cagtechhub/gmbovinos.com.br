@@ -36,19 +36,13 @@ function closeMobileMenu() {
           title="GM Bovinos — início"
         >
           <nuxt-img
-            src="/img/logo.png"
+            :src="variant === 'overlay' ? '/img/logo-mono.png' : '/img/logo.png'"
             alt="GM Bovinos"
             width="192"
             height="74"
             class="h-8 w-auto object-contain"
-            :class="variant === 'overlay' ? 'brightness-0 invert' : ''"
+            :class="variant === 'overlay' ? 'invert' : ''"
           />
-          <span
-            class="font-headline text-title tracking-tight font-medium"
-            :class="variant === 'overlay' ? 'text-dark-text-strong' : 'text-text-strong'"
-          >
-            GM BOVINOS
-          </span>
         </a>
       </div>
 
